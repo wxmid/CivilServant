@@ -3,7 +3,12 @@
     <div class="header-container">
       <a href="#"><img class="logo" src="/static/img/logo.png" alt=""></a>
       <div class="topbar">
-
+        <ul class="top-list">
+          <li class="top-item">18国考</li>
+          <li class="top-item">18国考</li>
+          <li class="top-item">18国考</li>
+          <li class="top-item">18国考</li>
+        </ul>
       </div>
       <div class="login-rigister">
         <button>登陆</button>
@@ -34,8 +39,15 @@ export default {
       .logo
         height: 72px;
       .topbar
-        width: calc(100% - 300px);
-      .login-rigister
+        width: calc(100% - 300px)
+        .top-list
+          display flex
+          justify-content space-around
+          .top-item
+            list-style-type none
+            font-size 18px
+            color #fff
+  .login-rigister
         button
           background: rgba(255,255,255,0);
           border: none;
