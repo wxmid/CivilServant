@@ -25,8 +25,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+@import "~common/style/styl"
 .header
-  background: #d62806
+  background: $title-color
   .header-container
       height: 72px;
       line-height: 72px;
@@ -42,15 +43,17 @@ export default {
         width: calc(100% - 300px)
         .top-list
           display flex
-          justify-content space-around
+          justify-content flex-start
           .top-item
             list-style-type none
             font-size 18px
             color #fff
+            width: 100px
   .login-rigister
         button
           background: rgba(255,255,255,0);
           border: none;
+          width: 50px
           outline: none;
           color: #fff;
           font-size: 16px;
