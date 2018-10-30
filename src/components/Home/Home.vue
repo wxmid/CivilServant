@@ -9,28 +9,30 @@
         </CarouselItem>
       </Carousel>
     </div>
-    <div class="search">
-       <div class="search-el">
-         <div class="search-cont">
-           <Icon type="ios-search-outline" /><input type="text"><button class="search-btn" id="searchContent">搜索</button>
-         </div>
-       </div>
-      <div class="hot-search">
-        <span>热搜关键词：</span>
-        <label for="searchContent">小月公开课</label>
-        <label for="searchContent">粉笔公开课</label>
-        <label for="searchContent">CCTalk公开课</label>
+    <div class="fast-search" :class="{searchrotop:toTop}">
+      <div class="search">
+        <div class="search-el">
+          <div class="search-cont">
+            <Icon type="ios-search-outline" /><input type="text"><button class="search-btn" id="searchContent">搜索</button>
+          </div>
+        </div>
+        <div class="hot-search">
+          <span>热搜关键词：</span>
+          <label for="searchContent">小月公开课</label>
+          <label for="searchContent">粉笔公开课</label>
+          <label for="searchContent">CCTalk公开课</label>
+        </div>
       </div>
-    </div>
-    <div class="h-container">
       <div class="h-header">
         <div class="h-h-item">全站</div>
         <div class="h-h-item">免费资源</div>
         <div class="h-h-item">大神笔记</div>
         <div class="h-h-item search-result">共找到 61875 个相关内容</div>
       </div>
+    </div>
+    <div class="h-container">
       <div class="h-c-list">
-        <div class="h-c-item" v-for="(item,index) in 8" :key="item" @click="goToDetail(index)">
+        <div class="h-c-item" v-for="(item,index) in 19" :key="item" @click="goToDetail(index)">
           <div class="h-c-pic">
             <img src="/static/img/zl.jpg" :alt="index">
           </div>
@@ -69,12 +71,30 @@ export default {
           title: 'title2'
         }
       ],
-      currentBanner: 0
+      currentBanner: 0,
+      toTop: false
     }
   },
+  mounted () {
+    this.lisentnerScroll()
+  },
   methods: {
+    lisentnerScroll () {
+      let self = this
+      document.onscroll = function () {
+        let scrolltop = document.documentElement.scrollTop
+        let offsetTop = document.getElementsByClassName('fast-search')[0].offsetTop
+        console.log("scrolltop:" + scrolltop)
+        console.log("offsetTop:" + offsetTop)
+        console.log("scrolltop - offsetTop:" +(scrolltop - offsetTop))
+        if (scrolltop >= 622) {
+          self.toTop = true
+        } else {
+          self.toTop = false
+        }
+      }
+    },
     goToDetail (id) {
-      debugger
       this.$router.push({path: '/detail', query: {id: id}})
     }
   }
@@ -86,7 +106,7 @@ export default {
 .home
   height: 100%
   .search
-    margin: 15px auto
+    padding: 10px 0 6px 0
     .search-el
       display: flex
       justify-content: center
@@ -134,27 +154,35 @@ export default {
       text-align: left
       label
         margin-left: 15px
-  .h-container
-    padding :20px
-    background: #fff
+  .h-header
+    display: flex
+    justify-content: flex-start
+    width: 100%
+    padding: 10px 20px 0 20px
     margin-top:6px
-    .h-header
-      display: flex
-      justify-content: flex-start
-      .h-h-item
-        width: 120px
-        height: 48px
-        line-height: 48px
-        font-size: 18px
-      .search-result
-        font-size: 13px
-        min-width: 180px
+    background: #fff
+    .h-h-item
+      width: 120px
+      height: 48px
+      line-height: 48px
+      font-size: 18px
+    .search-result
+      font-size: 13px
+      min-width: 180px
+  .h-container
+    height: calc(100% -100px)
+    padding :0px 20px 20px 20px
+    background: #fff
     .h-c-list
+      height:calc(100% - 158px)
+      overflow-x: scroll
       display: flex
-      justify-content: flex-start
+      justify-content: space-around
       flex-wrap: wrap
       align-items: center
-      margin-top: 20px
+      padding-top: 20px
+      &::-webkit-scrollbar
+        display: none
       .h-c-item
         width: 300px
         height: 240px
@@ -193,4 +221,15 @@ export default {
         .abs-describtion
           font-size: 13px
           padding:5px 0
+.searchrotop
+  position: fixed
+  top: 0px
+  left: 0
+  width: 100%
+  background: #D9DDE1;
+</style>
+<style>
+  html::-webkit-scrollbar {
+    display: none
+  }
 </style>
