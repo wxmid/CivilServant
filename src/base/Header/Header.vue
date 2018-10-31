@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-container">
-      <a href="#"><img class="logo" src="/static/img/logo.png" alt=""></a>
+      <router-link to="/"><img class="logo" src="/static/img/logo.png" alt=""></router-link>
       <div class="topbar">
         <ul class="top-list">
           <li class="top-item">18国考</li>

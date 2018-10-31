@@ -37,8 +37,12 @@
             <img src="/static/img/zl.jpg" :alt="index">
           </div>
           <div class="h-c-abstract">
-            <div class="abs-title">笔试系统班图书大礼包：2018下半年四川省考4期（部分回放）</div>
-            <div class="abs-describtion">江西事业单位系统班图书大礼包（限时特惠469元，11月7日中午12:00恢复499</div>
+            <div class="abs-title">笔试系统班图书大礼包：2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）</div>
+            <div class="abs-describtion">
+              <span class="free" v-if="index%2">免费</span>
+              <span class="charge" v-else>￥39.80 / VIP</span>
+              <Icon type="ios-people" class="browsers" /> <span>137</span>
+            </div>
           </div>
         </div>
       </div>
@@ -211,16 +215,28 @@ export default {
             -moz-border-radius:6px
             border-radius: 6px
         .abs-title
-          font-size: 16px
+          font-size: 15px
           width: 100%
-          overflow: hidden
-          white-space: nowrap
-          -ms-text-overflow: ellipsis
-          text-overflow: ellipsis
           font-weight:bolder
+          height: 46px
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
         .abs-describtion
           font-size: 13px
-          padding:5px 0
+          margin:5px 0
+          span
+            vertical-align: middle
+          .free
+            color: $title-color
+          .browsers
+            font-size: 24px
+            vertical-align: middle
+            margin-left: 15px
 .searchrotop
   position: fixed
   top: 0px
