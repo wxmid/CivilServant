@@ -1,7 +1,6 @@
 <template>
   <div class="detail">
     <div class="d-container">
-      <div class="title">笔试系统班图书大礼包：2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）</div>
       <div class="main-img-describ">
         <div class="main-img">
           <img src="/static/img/mainImg.jpg" alt="">
@@ -10,20 +9,17 @@
           <div class="m-title">2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）</div>
           <div class="m-row">
             <span class="m-r-title">价值：</span>
-            <span v-if="id%2">￥37.80/ VIP</span>
+            <span v-if="id%2">￥{{selectedCateg.price.toFixed(2)}}/ VIP</span>
             <span v-else class="m-free">免费</span>
           </div>
           <div class="m-row curse-category">
             <span class="m-r-title">课程类别:</span>
             <div class="categ-list">
-              <span>18年10月钩不了沉</span>
-              <span>18年8月四海龙飞</span>
-              <span>17年8月口碑山人</span>
-              <span>16年8月小月独家</span>
+              <span v-for="item in product.categList" :class="{activeCateg: selectedCateg.id === item.id}" :key="item.id" @click="selectCateg(item)">{{item.categName}}</span>
             </div>
           </div>
           <div class="m-row">
-            <span class="m-r-title">云盘链接：</span>
+            <span class="m-r-title">下载链接：</span>
             <a :href="panLink" target="_blank" class="pan-link" v-if="isShow">{{panLink}}</a>
             <span class="default-text" v-else>{{defaultText}}</span>
           </div>
@@ -45,11 +41,50 @@ export default {
       id: '',
       isShow: false,
       panLink: 'https://www.mindwin.com',
-      defaultText: 'VIP会员或购买后可看链接'
+      defaultText: 'VIP会员或单独购买后可看链接',
+      selectedCateg: {
+        id: 0,
+        categName: '18年10月钩不了沉',
+        price: 37.80,
+        isPay: false
+      },
+      product: {
+        categList: [
+          {
+            id: 0,
+            categName: '18年10月钩不了沉',
+            price: 37.80,
+            isPay: false
+          },
+          {
+            id: 1,
+            categName: '18年8月四海龙飞',
+            price: 37.80,
+            isPay: false
+          },
+          {
+            id: 2,
+            categName: '17年8月口碑山人',
+            price: 29.80,
+            isPay: false
+          },
+          {
+            id: 3,
+            categName: '16年8月小月独家',
+            price: 18.80,
+            isPay: true
+          }],
+      }
     }
   },
   created () {
     this.id = this.$route.query.id
+    this.selectedCateg = this.product.categList[0]
+  },
+  methods: {
+    selectCateg (data) {
+      this.selectedCateg = data
+    }
   }
 }
 </script>
@@ -58,17 +93,10 @@ export default {
   @import "~common/style/styl"
 .detail
   background: #fff
+  padding: 50px 0
   .d-container
     width: 1000px
     margin: 0 auto
-    .title
-      padding: 15px 0
-      font-size: 16px
-      font-weight:bold
-      overflow: hidden
-      white-space nowrap
-      -ms-text-overflow: ellipsis
-      text-overflow: ellipsis
     .main-img-describ
       display: flex
       justify-content:space-between
@@ -139,11 +167,19 @@ export default {
             justify-content: flex-start
             flex-wrap: wrap
             span
+              display: inline-block
               padding: 5px 6px
               font-size: 10px
               border: 1px solid #ccc
               margin: 0 10px 10px 0
               font-weight: normal
               cursor: pointer
+              height: 32px
               color: #333
+              -webkit-box-sizing: border-box
+              -moz-box-sizing: border-box
+              box-sizing: border-box
+            .activeCateg
+              color: #F40;
+              border: 2px solid #F40;
 </style>

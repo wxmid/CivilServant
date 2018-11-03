@@ -27,5 +27,5 @@ export default {
   .ct-page
     height: 100%
     .container
-      min-height: 100% //calc(100% - 136px)
+      min-height: calc(100% - 130px)
 </style>

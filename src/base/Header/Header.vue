@@ -4,11 +4,7 @@
       <router-link to="/"><img class="logo" src="/static/img/logo.png" alt=""></router-link>
       <div class="topbar">
         <ul class="top-list">
-          <li class="top-item">18国考</li>
-          <li class="top-item">18国考</li>
-          <li class="top-item">18国考</li>
-          <li class="top-item">18国考</li>
-        </ul>
+          <li v-for="(item, index) in headerList" @click="currentHIndex = index" :key="item + index" class="top-item" :class="{h_active: currentHIndex === index}">{{item}}</li></ul>
       </div>
       <div class="login-rigister">
         <button>登陆</button>
@@ -20,7 +16,13 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  data () {
+    return {
+      currentHIndex: 0,
+      headerList: ['国考', '省考', '银保监会', '事业单位', '证监会']
+    }
+  }
 }
 </script>
 
@@ -49,7 +51,15 @@ export default {
             font-size 18px
             color #fff
             width: 100px
-  .login-rigister
+            cursor: pointer
+            text-align: center
+            &:hover
+              text-shadow: 0px 0px 20px #ffffff;
+              font-weight:bold
+          .h_active
+            background: #fff
+            color: $title-color
+.login-rigister
         button
           background: rgba(255,255,255,0);
           border: none;
@@ -57,4 +67,7 @@ export default {
           outline: none;
           color: #fff;
           font-size: 16px;
+          &:hover
+            text-shadow: 0px 0px 20px #ffffff;
+            font-weight:bold
 </style>

@@ -24,9 +24,10 @@
         </div>
       </div>
       <div class="h-header">
-        <div class="h-h-item">全站</div>
-        <div class="h-h-item">免费资源</div>
-        <div class="h-h-item">大神笔记</div>
+        <div class="h-h-item second_level_active">全部</div>
+        <div class="h-h-item">行策</div>
+        <div class="h-h-item">申论</div>
+        <div class="h-h-item">专业课</div>
         <div class="h-h-item search-result">共找到 61875 个相关内容</div>
       </div>
     </div>
@@ -101,6 +102,9 @@ export default {
     goToDetail (id) {
       this.$router.push({path: '/detail', query: {id: id}})
     }
+  },
+  beforeDestroyed () {
+    document.onscroll = ''
   }
 }
 </script>
@@ -170,6 +174,8 @@ export default {
       height: 48px
       line-height: 48px
       font-size: 18px
+    .second_level_active
+      color: $title-color
     .search-result
       font-size: 13px
       min-width: 180px
@@ -203,11 +209,11 @@ export default {
           -webkit-box-shadow: 0 2px 20px 5px rgba(7,17,27,.26)
           -moz-box-shadow: 0 2px 20px 5px rgba(7,17,27,.26)
           box-shadow: 0 2px 20px 5px rgba(7,17,27,.26)
-          animation: moveAnimation 0.4s
+          /*animation: moveAnimation 0.4s
           -moz-animation: moveAnimation 0.4s
           -webkit-animation: moveAnimation 0.4s
           -o-animation: moveAnimation 0.4s
-          animation-fill-mode: forwards;
+          animation-fill-mode: forwards;*/
         .h-c-pic
           img
             width: 100%
