@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Container from '@/base/Container/Container'
 import Home from '@/components/Home/Home'
 import Detail from '@/components/Detail/Detail'
+import BaiduMap from '@/base/BaiduMap/BaiduMap'
 
 Vue.use(Router)
 
@@ -26,6 +27,11 @@ export default new Router({
           path: '/detail',
           name: 'detail',
           component: Detail
+        },
+        {
+          path: '/baiduMap',
+          name: 'baiduMap',
+          component: BaiduMap
         },
       ]
     }
