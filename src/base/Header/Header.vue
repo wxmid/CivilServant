@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="header-container">
-      <router-link to="/"><img class="logo" src="/static/img/logo.png" alt=""></router-link>
+      <router-link to="/"><img class="logo" src="/static/img/relogoRed.png" alt=""></router-link>
       <div class="topbar">
         <ul class="top-list">
           <li v-for="(item, index) in headerList" @click="currentHIndex = index" :key="item + index" class="top-item" :class="{h_active: currentHIndex === index}">{{item}}</li></ul>

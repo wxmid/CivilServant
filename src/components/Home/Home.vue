@@ -64,15 +64,11 @@ export default {
     return {
       bannerList: [
         {
-          imgurl: '/static/img/banner0.jpg',
-          title: 'title0'
+          imgurl: '/static/img/banner3.jpg',
+          title: 'title2'
         },
         {
-          imgurl: '/static/img/banner1.jpg',
-          title: 'title1'
-        },
-        {
-          imgurl: '/static/img/banner2.jpg',
+          imgurl: '/static/img/banner5.jpg',
           title: 'title2'
         }
       ],
@@ -113,6 +109,10 @@ export default {
 @import "~common/style/styl"
 .home
   height: 100%
+  .banner
+    .demo-carousel
+      img
+        width: 100%
   .search
     padding: 10px 0 6px 0
     .search-el
