@@ -1,17 +1,42 @@
 <template>
   <div class="login">
     <div class="login-container">
-      <div class="title">{{title}}</div>
-      <div class="account">
-        <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
+      <div class="title">{{login ? '登陆' : '注册'}}</div>
+      <div class="login-modal" v-if="login">
+        <div class="account">
+          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
+        </div>
+        <div class="account">
+          <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
+        </div>
+        <div class="password-settings">
+          <div class="remember-password"><input type="checkbox"><span> 记住密码</span></div>
+          <div class="forget-password"><span>忘记密码 ？</span></div>
+        </div>
       </div>
-      <div class="account">
-        <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
+      <div class="register-modal" v-else>
+        <div class="account">
+          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入手机号">
+        </div>
+        <div class="account">
+          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入验证码">
+        </div>
+        <div class="account">
+          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
+        </div>
+        <div class="account">
+          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="password" placeholder="请输入密码">
+        </div>
+        <div class="account">
+          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="password" placeholder="请再次输入密码">
+        </div>
       </div>
       <div class="login-register">
         <button>{{title}}</button>
       </div>
-      <div class="revert-lg-rg"></div>
+      <div class="revert-lg-rg">
+        <span @click="login = !login">去{{login ? '注册' : '登陆'}} <i class="iconfont icon-arrowhead-top"></i></span>
+      </div>
     </div>
   </div>
 </template>
@@ -22,8 +47,10 @@ export default {
   name: 'login',
   data () {
     return {
-      title: '登陆'
+      login: true
     }
+  },
+  watch: {
   }
 }
 </script>
@@ -40,7 +67,7 @@ export default {
   z-index: 1000
   .login-container
     width: 360px
-    height: 320px
+    /*height: 320px*/
     background: #fff
     -webkit-border-radius: 8px
     -moz-border-radius:8px
@@ -89,8 +116,22 @@ export default {
           -moz-box-shadow: 0 0 10px 0px $mw-active
           box-shadow: 0 0 10px 0px $mw-active
           outline: none
+    .password-settings
+      display: flex
+      justify-content: space-around
+      font-size: 13px
+      color: #666
+      margin-top: 10px
+      .remember-password
+        input,span
+          vertical-align: middle
+          cursor: pointer
+      .forget-password
+        cursor: pointer
+        &:hover
+            color: $mw-active
     .login-register
-      margin-top: 25px
+      margin-top: 10px
       button
         width: 100%
         height: 40px
@@ -106,4 +147,11 @@ export default {
         border-radius: 20px
         &:active
           background: $title-color
+    .revert-lg-rg
+      font-size: 14px
+      span
+        display: inline-block
+        height: 40px
+        line-height: 40px
+        padding: 0 20px
 </style>
