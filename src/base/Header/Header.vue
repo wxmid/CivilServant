@@ -7,20 +7,32 @@
           <li v-for="(item, index) in headerList" @click="currentHIndex = index" :key="item + index" class="top-item" :class="{h_active: currentHIndex === index}">{{item}}</li></ul>
       </div>
       <div class="login-rigister">
-        <button>登陆</button>
-        <button>注册</button>
+        <button @click="isShowLogin = true,login = true">登陆</button>
+        <button @click="isShowLogin = true,login = false">注册</button>
       </div>
     </div>
+    <v-login v-if="isShowLogin" @close="closeLoginModal" :login="login"></v-login>
   </div>
 </template>
 
 <script>
+import Login from '@/base/Login/Login.vue'
 export default {
   name: 'Header',
+  components: {
+    'v-login': Login
+  },
   data () {
     return {
       currentHIndex: 0,
-      headerList: ['国考', '省考', '银保监会', '事业单位', '证监会']
+      headerList: ['国考', '省考', '银保监会', '事业单位', '证监会'],
+      isShowLogin: false,
+      login: true
+    }
+  },
+  methods: {
+    closeLoginModal (data) {
+      this.isShowLogin = data
     }
   }
 }
@@ -42,7 +54,7 @@ export default {
       .logo
         height: 72px;
       .topbar
-        width: calc(100% - 300px)
+        width: calc(100% - 320px)
         .top-list
           display flex
           justify-content flex-start

@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <div class="login-container">
+      <span class="close-l-r-modal" @click="close"><i class="iconfont icon-close2"></i></span>
       <div class="title">{{login ? '登陆' : '注册'}}</div>
       <div class="login-modal" v-if="login">
         <div class="account">
@@ -16,23 +17,23 @@
       </div>
       <div class="register-modal" v-else>
         <div class="account">
-          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入手机号">
+          <label for=""><i class="iconfont icon-shurushoujihao"></i></label><input type="text" placeholder="请输入手机号">
         </div>
-        <div class="account">
-          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入验证码">
+        <div class="account verif-code">
+          <input type="text" placeholder="请输入验证码"><button>获取验证码</button>
         </div>
         <div class="account">
           <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
         </div>
         <div class="account">
-          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="password" placeholder="请输入密码">
+          <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
         </div>
         <div class="account">
-          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="password" placeholder="请再次输入密码">
+          <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码">
         </div>
       </div>
       <div class="login-register">
-        <button>{{title}}</button>
+        <button>{{login ? '登陆' : '注册'}}</button>
       </div>
       <div class="revert-lg-rg">
         <span @click="login = !login">去{{login ? '注册' : '登陆'}} <i class="iconfont icon-arrowhead-top"></i></span>
@@ -45,12 +46,22 @@
 import 'common/font/iconfont/iconfont.css'
 export default {
   name: 'login',
+  props: {
+    login: {
+      type: Boolean,
+      defaul: true
+    }
+  },
   data () {
     return {
-      login: true
     }
   },
   watch: {
+  },
+  methods: {
+    close () {
+      this.$emit('close', false)
+    }
   }
 }
 </script>
@@ -66,8 +77,8 @@ export default {
   background: rgba(0,0,0,0.3);
   z-index: 1000
   .login-container
+    position: relative
     width: 360px
-    /*height: 320px*/
     background: #fff
     -webkit-border-radius: 8px
     -moz-border-radius:8px
@@ -83,15 +94,27 @@ export default {
     -ms-transform: translate(-50%)
     -o-transform: translate(-50%)
     transform: translate(-50%)
-    padding: 20px
+    padding: 20px 40px
     -webkit-box-sizing: border-box
     -moz-box-sizing: border-box
     box-sizing: border-box
+    .close-l-r-modal
+      position: absolute
+      right: 15px
+      top: 10px
+      padding: 6px
+      i
+        font-size:18px
+        font-weight: bold
+        color: #999
     .title
       font-size: 24px
     .account
       margin-top: 30px
       position: relative
+      display: flex
+      justify-content: flex-end
+      align-items: center
       label
         font-size: 22px
         position: absolute
@@ -106,16 +129,35 @@ export default {
         -webkit-box-sizing: border-box
         -moz-box-sizing: border-box
         box-sizing: border-box
-        font-size: 16px
+        font-size: 14px
         -webkit-border-radius: 8px
         -moz-border-radius:8px
         border-radius:8px
         &:focus
-          border: #d92100
+          border-color: #d92100
           -webkit-box-shadow: 0 0 10px 0px $mw-active
           -moz-box-shadow: 0 0 10px 0px $mw-active
           box-shadow: 0 0 10px 0px $mw-active
           outline: none
+    .verif-code
+      input
+        width: 60%
+      button
+        display: inline-block
+        background: #ffffff
+        border: 1px solid $title-color
+        width: 36%
+        height: 40px
+        background: $mw-active
+        color: #ffffff
+        font-size: 16px
+        outline: none
+        -webkit-border-radius: 6px
+        -moz-border-radius:6px
+        border-radius:6px
+        margin-left:4%
+        &:active
+          background: $title-color
     .password-settings
       display: flex
       justify-content: space-around
@@ -154,4 +196,7 @@ export default {
         height: 40px
         line-height: 40px
         padding: 0 20px
+  .register-modal
+    .account
+      margin-top:15px
 </style>
