@@ -11,7 +11,7 @@
         <button @click="isShowLogin = true,login = false">注册</button>
       </div>
     </div>
-    <v-login v-if="isShowLogin" @close="closeLoginModal" :login="login"></v-login>
+    <v-login v-if="isShowLogin" @close="closeLoginModal" @loginSwitch="lognRegistSwith" :login="login"></v-login>
   </div>
 </template>
 
@@ -33,6 +33,9 @@ export default {
   methods: {
     closeLoginModal (data) {
       this.isShowLogin = data
+    },
+    lognRegistSwith (data) {
+      this.login = data
     }
   }
 }
@@ -61,16 +64,17 @@ export default {
           .top-item
             list-style-type none
             font-size 18px
-            color #fff
+            color #e2e2e2
             width: 100px
             cursor: pointer
             text-align: center
             &:hover
-              text-shadow: 0px 0px 20px #ffffff;
-              font-weight:bold
+              text-shadow: 0px 0px 30px #fff;
+              font-weight: bolder
           .h_active
-            background: #fff
-            color: $title-color
+            text-shadow: 0px 0px 30px #ffffff;
+            color: #fff
+            font-weight: bold
 .login-rigister
         button
           background: rgba(255,255,255,0);

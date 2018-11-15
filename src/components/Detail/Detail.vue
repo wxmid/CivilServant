@@ -73,7 +73,7 @@ export default {
             categName: '16年8月小月独家',
             price: 18.80,
             isPay: true
-          }],
+          }]
       }
     }
   },

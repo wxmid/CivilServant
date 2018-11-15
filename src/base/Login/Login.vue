@@ -5,38 +5,38 @@
       <div class="title">{{login ? '登陆' : '注册'}}</div>
       <div class="login-modal" v-if="login">
         <div class="account">
-          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
+          <label><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
         </div>
         <div class="account">
-          <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
         </div>
         <div class="password-settings">
           <div class="remember-password"><input type="checkbox"><span> 记住密码</span></div>
-          <div class="forget-password"><span>忘记密码 ？</span></div>
+          <div class="forget-password"><span @click="forgetPassword">忘记密码 ？</span></div>
         </div>
       </div>
       <div class="register-modal" v-else>
         <div class="account">
-          <label for=""><i class="iconfont icon-shurushoujihao"></i></label><input type="text" placeholder="请输入手机号">
+          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="text" placeholder="请输入手机号">
         </div>
         <div class="account verif-code">
           <input type="text" placeholder="请输入验证码"><button>获取验证码</button>
         </div>
         <div class="account">
-          <label for=""><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
+          <label><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
         </div>
         <div class="account">
-          <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
         </div>
         <div class="account">
-          <label for=""><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码">
         </div>
       </div>
       <div class="login-register">
         <button>{{login ? '登陆' : '注册'}}</button>
       </div>
       <div class="revert-lg-rg">
-        <span @click="login = !login">去{{login ? '注册' : '登陆'}} <i class="iconfont icon-arrowhead-top"></i></span>
+        <span @click="loginOrRegist">去{{login ? '注册' : '登陆'}} <i class="iconfont icon-arrowhead-top"></i></span>
       </div>
     </div>
   </div>
@@ -61,6 +61,12 @@ export default {
   methods: {
     close () {
       this.$emit('close', false)
+    },
+    loginOrRegist () {
+      this.$emit('loginSwitch', !this.login)
+    },
+    forgetPassword () {
+      window.open('#/forgetPassword')
     }
   }
 }

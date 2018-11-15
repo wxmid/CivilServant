@@ -85,9 +85,10 @@ export default {
       document.onscroll = function () {
         let scrolltop = document.documentElement.scrollTop
         let offsetTop = document.getElementsByClassName('fast-search')[0].offsetTop
-        console.log("scrolltop:" + scrolltop)
+        /* console.log("scrolltop:" + scrolltop)
         console.log("offsetTop:" + offsetTop)
         console.log("scrolltop - offsetTop:" +(scrolltop - offsetTop))
+        */
         if (scrolltop >= 622) {
           self.toTop = true
         } else {

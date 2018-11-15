@@ -8,6 +8,7 @@ import iView from 'iview'
 import vuex from 'vuex'
 import axios from 'axios'
 import 'iview/dist/styles/iview.css'
+Vue.prototype.$api = axios
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(iView, {
@@ -15,7 +16,7 @@ Vue.use(iView, {
   size: 'large'
 })
 Vue.use(vuex)
-Vue.use(axios)
+// Vue.use(axios)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
