@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import 'common/font/iconfont/iconfont.css'
 import Header from '@/base/Header/Header.vue'
 import Footer from '@/base/Footer/Footer.vue'
 export default {

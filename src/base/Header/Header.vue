@@ -4,11 +4,13 @@
       <router-link to="/"><img class="logo" src="/static/img/relogoRed.png" alt=""></router-link>
       <div class="topbar">
         <ul class="top-list">
-          <li v-for="(item, index) in headerList" @click="currentHIndex = index" :key="item + index" class="top-item" :class="{h_active: currentHIndex === index}">{{item}}</li></ul>
+          <li v-for="(item, index) in headerList" @click="changeIndex(item,index)" :key="item + index" class="top-item" :class="{h_active: $route.fullPath == item.path}">{{item.name}}</li>
+        </ul>
       </div>
       <div class="login-rigister">
         <button @click="isShowLogin = true,login = true">登陆</button>
         <button @click="isShowLogin = true,login = false">注册</button>
+        <span id="qqLoginBtn"></span>
       </div>
     </div>
     <v-login v-if="isShowLogin" @close="closeLoginModal" @loginSwitch="lognRegistSwith" :login="login"></v-login>
@@ -24,11 +26,39 @@ export default {
   },
   data () {
     return {
-      currentHIndex: 0,
-      headerList: ['国考', '省考', '银保监会', '事业单位', '证监会'],
+      headerList: [
+        {
+          name: '国考',
+          path: '/home?tp=0'
+        },
+        {
+          name: '省考',
+          path: '/home?tp=1'
+        },
+        {
+          name: '银保监会',
+          path: '/home?tp=2'
+        },
+        {
+          name: '事业单位',
+          path: '/home?tp=3'
+        },
+        {
+          name: '证监会',
+          path: '/home?tp=4'
+        },
+        {
+          name: '关于会员',
+          path: '/memberShip'
+        }],
       isShowLogin: false,
       login: true
     }
+  },
+  mounted () {
+    QC.Login({
+      btnId: "qqLoginBtn" // 插入按钮的节点id
+    })
   },
   methods: {
     closeLoginModal (data) {
@@ -36,6 +66,9 @@ export default {
     },
     lognRegistSwith (data) {
       this.login = data
+    },
+    changeIndex (data, index) {
+      this.$router.push({path: data.path})
     }
   }
 }
@@ -76,14 +109,25 @@ export default {
             color: #fff
             font-weight: bold
 .login-rigister
-        button
-          background: rgba(255,255,255,0);
-          border: none;
-          width: 50px
-          outline: none;
-          color: #fff;
-          font-size: 16px;
-          &:hover
-            text-shadow: 0px 0px 20px #ffffff;
-            font-weight:bold
+  width: 190px
+  button
+    background: rgba(255,255,255,0);
+    border: none;
+    width: 50px
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    &:hover
+      text-shadow: 0px 0px 20px #ffffff;
+      font-weight:bold
+</style>
+<style lang="stylus">
+#qqLoginBtn
+  display: inline-block
+  a
+    display: inline-block
+    img
+      display: inline-block
+      vertical-align: middle!important
+      margin-top: -4px;
 </style>

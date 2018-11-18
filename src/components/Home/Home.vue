@@ -199,7 +199,7 @@ export default {
         height: 240px
         padding:10px 20px
         text-align: left
-        margin: 0 20px 20px 0
+        margin: 0 0px 20px 0
         -webkit-border-radius: 10px
         -moz-border-radius:10px
         border-radius: 10px

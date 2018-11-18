@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import 'common/font/iconfont/iconfont.css'
 export default {
   name: 'login',
   props: {
