@@ -1,14 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
 axios.defaults.timeout = 15000
+axios.defaults.withCredentials = false
 let pathname = ''
 let path = location.pathname
-if (path) {
-  console.log(path)
-  pathname = path.split('/')[1]
-  console.log(pathname)
-}
-axios.defaults.baseURL = '/' + pathname
+// axios.defaults.baseURL = top.location.origin // 自动获取域名
+axios.defaults.baseURL = 'http://localhost:3000'
 axios.defaults.headers = {
   'Accept': 'application/json;charset=utf-8',
   'Content-Type': 'application/json;charset=utf-8'
@@ -47,4 +44,11 @@ function upload (path, params) {
 }
 function get (path, params) {
   return axios.get(path, params)
+}
+
+// 请求接口
+export default {
+  getDataList(params) {
+    return get('/data/getdatalist',params)
+  }
 }

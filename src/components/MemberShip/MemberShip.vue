@@ -75,26 +75,26 @@ export default {
         {
           level: '普通会员',
           term: '--',
-          rights: 'Ottawa No. 2 Lake Park',
-          price: 19.8
+          rights: '仅限免费资源下载',
+          price: '--'
         },
         {
           level: '月费VIP会员',
           term: '30天',
-          rights: 'New York No. 1 Lake Park',
+          rights: '全站资源随意下载',
           price: 19.8
         },
         {
           level: '年费VIP会员',
           term: '365天',
-          rights: 'London No. 1 Lake Park',
-          price: 19.8
+          rights: '全站资源随意下载',
+          price: 49.8
         },
         {
           level: '永久VIP会员',
           term: '永久',
-          rights: 'Sydney No. 1 Lake Park',
-          price: 19.8
+          rights: '全站资源随意下载',
+          price: 99.8
         }
       ]
     }

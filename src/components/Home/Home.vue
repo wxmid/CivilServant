@@ -79,6 +79,14 @@ export default {
   mounted () {
     this.lisentnerScroll()
   },
+  created () {
+    this.api.getDataList(1).then((res) => {
+      debugger
+      if (res.status === 200) {
+        console.log(res.data)
+      }
+    });
+  },
   methods: {
     lisentnerScroll () {
       let self = this
