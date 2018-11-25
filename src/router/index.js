@@ -5,6 +5,20 @@ import Home from '@/components/Home/Home'
 import Detail from '@/components/Detail/Detail'
 import ForgetPassword from '@/components/ForgetPassword/ForgetPassword'
 import MemberShip from '@/components/MemberShip/MemberShip'
+import ManagementBackstage from '@/components/ManagementBackstage/ManagementBackstage'
+import BackstageDatas from '@/components/BackstageDatas/BackstageDatas'
+import UserList from '@/components/UserList/UserList'
+/*
+const Container = () => import('@/components/Container/Container')
+const Home = () => import('@/components/Home/Home')
+const Detail = () => import('@/components/Detail/Detail')
+const ForgetPassword = () => import('@/components/ForgetPassword/ForgetPassword')
+const MemberShip = () => import('@/components/MemberShip/MemberShip')
+const ManagementBackstage = () => import('@/components/ManagementBackstage/ManagementBackstage')
+const BackstageDatas = () => import('@/components/BackstageDatas/BackstageDatas')
+*/
+// const UserList = () => import('@/components/UserList/UserList')
+
 import BaiduMap from '@/base/BaiduMap/BaiduMap'
 
 Vue.use(Router)
@@ -64,6 +78,48 @@ export default new Router({
       meta: {
         login: false
       }
+    },
+    {
+      path: '/backstage',
+      name: 'backstage',
+      component: ManagementBackstage,
+      meta: {
+        login: true
+      },
+      children: [
+        {
+          path: '/backstage/datas',
+          name: 'backstage/datas',
+          component: BackstageDatas,
+          meta: {
+            login: false,
+            name: '资源管理',
+            icon: 'ios-cog'
+          },
+          children: [
+            {
+              path: '/backstage/datas',
+              name: 'backstage/datas',
+              component: BackstageDatas,
+              meta: {
+                login: false,
+                name: '资源列表',
+                icon: 'md-list-box'
+              }
+            },
+            {
+              path: '/backstage/userLit',
+              name: 'backstage/userLit',
+              component: UserList,
+              meta: {
+                login: false,
+                name: '用户列表',
+                icon: 'ios-list-box-outline'
+              }
+            }
+          ]
+        }
+        ]
     }
   ]
 })
