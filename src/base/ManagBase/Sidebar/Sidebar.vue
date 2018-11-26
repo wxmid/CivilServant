@@ -1,5 +1,5 @@
 <template>
-  <Menu class="sidbar" active-name="1-2" :open-names="['1']" theme="dark">
+  <Menu class="sidbar" :active-name="$router.options.routes[3].children[0].children[0].name" :open-names="[$router.options.routes[3].children[0].children[0].name]" theme="dark">
     <template v-for="(item,index) in $router.options.routes[3].children">
       <Submenu :name="item.name" :to="item.name">
         <template slot="title">
