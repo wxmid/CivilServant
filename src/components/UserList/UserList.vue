@@ -1,5 +1,5 @@
 <template>
-<div class="user-list"></div>
+<div class="user-list">用户列表</div>
 </template>
 
 <script>

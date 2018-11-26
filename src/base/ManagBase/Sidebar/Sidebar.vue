@@ -1,52 +1,30 @@
 <template>
   <Menu class="sidbar" active-name="1-2" :open-names="['1']" theme="dark">
-    <Submenu name="1">
-      <template slot="title">
-        <Icon type="ios-analytics" />
-        Navigation One
-      </template>
-      <MenuGroup title="Item 1">
-        <MenuItem name="1-1">Option 1</MenuItem>
-        <MenuItem name="1-2">Option 2</MenuItem>
-      </MenuGroup>
-      <MenuGroup title="Item 2">
-        <MenuItem name="1-3">Option 3</MenuItem>
-        <MenuItem name="1-4">Option 4</MenuItem>
-      </MenuGroup>
-    </Submenu>
-    <Submenu name="2">
-      <template slot="title">
-        <Icon type="ios-filing" />
-        Navigation Two
-      </template>
-      <MenuItem name="2-1">Option 5</MenuItem>
-      <MenuItem name="2-2">Option 6</MenuItem>
-      <Submenu name="3">
-        <template slot="title">Submenu</template>
-        <MenuItem name="3-1">Option 7</MenuItem>
-        <MenuItem name="3-2">Option 8</MenuItem>
+    <template v-for="(item,index) in $router.options.routes[3].children">
+      <Submenu :name="item.name" :to="item.name">
+        <template slot="title">
+          <Icon :type="item.meta.icon" />
+          {{item.meta.name}}
+        </template>
+        <MenuItem  v-for="(item1,index) in item.children" :name="item1.name" :to="item1.name">
+          <Icon :type="item1.meta.icon" />{{item1.meta.name}}
+        </MenuItem>
       </Submenu>
-    </Submenu>
-    <Submenu name="4">
-      <template slot="title">
-        <Icon type="ios-cog" />
-        Navigation Three
-      </template>
-      <MenuItem name="4-1">Option 9</MenuItem>
-      <MenuItem name="4-2">Option 10</MenuItem>
-      <MenuItem name="4-3">Option 11</MenuItem>
-      <MenuItem name="4-4">Option 12</MenuItem>
-    </Submenu>
+    </template>
   </Menu>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  created() {
+    console.log(this.$router)
+  }
 }
 </script>
 
 <style scoped lang="stylus">
 .sidbar
   height: 100%
+  width: 200px!important
 </style>

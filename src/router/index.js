@@ -79,6 +79,7 @@ export default new Router({
         login: false
       }
     },
+    // 管理后台
     {
       path: '/backstage',
       name: 'backstage',
@@ -88,8 +89,8 @@ export default new Router({
       },
       children: [
         {
-          path: '/backstage/datas',
-          name: 'backstage/datas',
+          path: '/datas',
+          name: 'datas',
           component: BackstageDatas,
           meta: {
             login: false,
@@ -98,18 +99,30 @@ export default new Router({
           },
           children: [
             {
-              path: '/backstage/datas',
-              name: 'backstage/datas',
+              path: '/datas',
+              name: 'datas',
               component: BackstageDatas,
               meta: {
                 login: false,
                 name: '资源列表',
                 icon: 'md-list-box'
               }
-            },
+            }
+          ]
+        },
+        {
+          path: '/userLit',
+          name: 'userLit',
+          component: UserList,
+          meta: {
+            login: false,
+            name: '会员管理',
+            icon: 'ios-cog'
+          },
+          children: [
             {
-              path: '/backstage/userLit',
-              name: 'backstage/userLit',
+              path: '/userLit',
+              name: 'userLit',
               component: UserList,
               meta: {
                 login: false,
