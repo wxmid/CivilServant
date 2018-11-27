@@ -60,6 +60,9 @@
         </FormItem>
       </Form>
     </Modal>
+    <Modal v-model="deleteModalShow" scrollable title="系统提示" @on-ok="deleteRow">
+      <div>确定删除该条数据吗？</div>
+    </Modal>
   </div>
 </template>
 
@@ -68,6 +71,7 @@
     name: 'backstageDatas',
     data () {
       return {
+        deleteModalShow: false,
         formItem: {
           input: '',
           select: '',
@@ -157,7 +161,8 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params)
+                      this.currentData = params
+                      this.deleteModalShow = true
                     }
                   }
                 }, '删除')
@@ -167,28 +172,11 @@
         ],
         dataList: [
           {
+            thumbnail: '/static/img/mainImg.jpg',
             level: '普通会员',
             term: '--',
             rights: '仅限免费资源下载',
             price: '--'
-          },
-          {
-            level: '月费VIP会员',
-            term: '30天',
-            rights: '全站资源随意下载',
-            price: 19.8
-          },
-          {
-            level: '年费VIP会员',
-            term: '365天',
-            rights: '全站资源随意下载',
-            price: 49.8
-          },
-          {
-            level: '永久VIP会员',
-            term: '永久',
-            rights: '全站资源随意下载',
-            price: 99.8
           }
         ]
       }
@@ -200,6 +188,15 @@
       },
       remove (data) {
         this.dataList.splice(data.index, 1)
+      },
+      ok() {
+        console.log('ok')
+      },
+      cancel() {
+        console.log('cancel')
+      },
+      deleteRow(row) {
+
       }
     }
   }

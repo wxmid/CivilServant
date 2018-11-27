@@ -17,7 +17,7 @@
 <script>
 export default {
   name: 'app',
-  created() {
+  created () {
     console.log(this.$router)
   }
 }
