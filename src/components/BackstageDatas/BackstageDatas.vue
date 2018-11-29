@@ -96,7 +96,11 @@
                     type: 'person'
                   }
                 }),
-                h('strong', params.row.level)
+                h('img', {
+                  props: {
+                    src: params.row.thumbnail
+                  }
+                })
               ])
             }
           },
