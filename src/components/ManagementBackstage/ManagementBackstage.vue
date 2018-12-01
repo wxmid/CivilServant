@@ -31,5 +31,5 @@ export default {
     border-bottom: 2px solid #2c6b49
   .container
     width: calc(100% - 200px)
-    padding: 20px
+    padding: 10px
 </style>
