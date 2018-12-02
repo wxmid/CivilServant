@@ -64,10 +64,10 @@
           <Input v-model="formItem.input" placeholder="请输入标题"></Input>
         </FormItem>
         <FormItem label="价格">
-          <Input type="number" v-model="formItem.input" placeholder="请输入价格"></Input>
+          <Input type="text" v-model="formItem.input" placeholder="请输入价格"></Input>
         </FormItem>
-        <FormItem label="购买基数">
-          <Input type="number" v-model="formItem.input" placeholder="请输入购买基数"></Input>
+        <FormItem label="浏览基数">
+          <Input type="text" v-model="formItem.input" placeholder="请输入购买基数"></Input>
         </FormItem>
         <!--<FormItem label="Select">
           <Select v-model="formItem.select">
@@ -257,6 +257,10 @@
             {
               'name': 'a42bdcc1178e62b4694c830f028db5c0',
               'url': 'https://o5wwk8baw.qnssl.com/a42bdcc1178e62b4694c830f028db5c0/avatar'
+            },
+            {
+              'name': 'bc7521e033abdd1e92222d733590f104',
+              'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
             },
             {
               'name': 'bc7521e033abdd1e92222d733590f104',
