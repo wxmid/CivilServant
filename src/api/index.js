@@ -30,7 +30,7 @@ axios.interceptors.request.use(
 )
 axios.interceptors.response.use(
   response => {
-    return response
+    return response.data
   },
   error => {
     return Promise.reject(error)
@@ -48,7 +48,12 @@ function get (path, params) {
 
 // 请求接口
 export default {
+  // 获取资料信息列表
   getDataList(params) {
-    return get('/data/getdatalist',params)
-  }
+    return get('/manage/getdataList',params)
+  },
+  // 添加资料信息
+  addData(params) {
+    return post('/manage/addData',params)
+  },
 }

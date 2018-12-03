@@ -11,7 +11,7 @@
       :loading="modalLoading"
       @on-ok="confirm"
       @on-cancel="cancel">
-      <Form :model="formItem" :label-width="80">
+      <Form :model="currentData" :label-width="80">
         <FormItem label="*缩略图">
           <Upload
             multiple
@@ -61,13 +61,13 @@
           </Modal>
         </FormItem>
         <FormItem label="标题">
-          <Input v-model="formItem.input" placeholder="请输入标题"></Input>
+          <Input v-model="currentData.title" placeholder="请输入标题"></Input>
         </FormItem>
         <FormItem label="价格">
-          <Input type="text" v-model="formItem.input" placeholder="请输入价格"></Input>
+          <Input type="text" v-model="currentData.price" placeholder="请输入价格"></Input>
         </FormItem>
         <FormItem label="浏览基数">
-          <Input type="text" v-model="formItem.input" placeholder="请输入购买基数"></Input>
+          <Input type="text" v-model="currentData.browseCount" placeholder="请输入购买基数"></Input>
         </FormItem>
         <!--<FormItem label="Select">
           <Select v-model="formItem.select">
@@ -102,7 +102,7 @@
           </CheckboxGroup>
         </FormItem>-->
         <FormItem label="上下架">
-          <i-switch v-model="formItem.switch" size="large">
+          <i-switch v-model="currentData.onOff" size="large">
             <span slot="open">上架</span>
             <span slot="close">下架</span>
           </i-switch>
@@ -111,7 +111,7 @@
           <Slider v-model="formItem.slider" range></Slider>
         </FormItem>-->
         <FormItem label="描述">
-          <Input v-model="formItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入描述内容."></Input>
+          <Input v-model="currentData.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入描述内容."></Input>
         </FormItem>
       </Form>
     </Modal>
@@ -148,7 +148,7 @@
           {
             title: '资料图',
             width: 140,
-            key: 'level',
+            key: 'thumbnail',
             render: (h, params) => {
               return h('div',
                 {
@@ -168,15 +168,15 @@
           },
           {
             title: '标题',
-            key: 'term'
+            key: 'title'
           },
           {
             title: '描述',
-            key: 'rights'
+            key: 'description'
           },
           {
             title: '下载链接',
-            key: 'rights'
+            key: 'url'
           },
           {
             title: '课程类别',
@@ -236,17 +236,8 @@
             }
           }
         ],
-        dataList: [
-          {
-            id: 123456,
-            thumbnail: '/static/img/mainImg.jpg',
-            level: '普通会员',
-            term: '--',
-            rights: '仅限免费资源下载',
-            price: '--'
-          }
-        ],
-        currentData: {
+        dataList: [],
+        currentData: {} /*{
           id: 123456,
           thumbnail: '', // '/static/img/mainImg.jpg',
           level: '普通会员',
@@ -267,7 +258,7 @@
               'url': 'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
             }
           ]
-        },
+        }*/,
         imgName: '',
         visible: false,
         uploadList: []
@@ -276,15 +267,32 @@
     mounted () {
       this.uploadList = this.$refs.upload.fileList;
     },
+    created() {
+      this.getDataList()
+    },
     methods: {
+      getDataList() {
+        let self = this
+        this.api.getDataList({}).then(res => {
+          if (res.status === 0) {
+            self.dataList = res.list
+          } else {
+            this.$Message.error('获取数据列表失败！');
+          }
+        }).catch(res => {
+          this.$Message.error('获取数据列表失败！');
+        })
+      },
       adddata() {
         this.isShow = true
         this.currentData = {
-          thumbnail: '', // '/static/img/mainImg.jpg',
-          level: '普通会员',
-          term: '',
-          rights: '',
-          price: ''
+          thumbnail: 'https://fms.ipinyou.com/5/1C/CE/B5/F001461R_uXg000zM3C4.jpg',
+          imgList: [],
+          title: '',
+          price: 0,
+          browseCount: 0,
+          onOff: false,
+          description: ''
         }
       },
       editDatas (data) {
@@ -295,10 +303,22 @@
         this.dataList.splice(data.index, 1)
       },
       confirm() {
-        console.log('ok')
-//        return false
-//        this.isShow = false
-        this.modalLoading = false
+        let self = this
+        let params = this.currentData;
+        this.api.addData(params).then(res => {
+          if (res.status === 0) {
+            self.getDataList()
+            this.$Message.success('添加成功！');
+          } else {
+            this.$Message.error('添加失败！');
+          }
+          this.isShow = false
+          this.modalLoading = false
+        }).catch(res => {
+          this.$Message.error('添加失败！');
+          this.isShow = false
+          this.modalLoading = false
+        })
       },
       cancel() {
         console.log('cancel')
