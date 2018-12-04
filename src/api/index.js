@@ -2,8 +2,9 @@ import axios from 'axios'
 import qs from 'qs'
 axios.defaults.timeout = 15000
 axios.defaults.withCredentials = false
-let pathname = ''
-let path = location.pathname
+let path = location.origin
+let baseUrl = 'http://localhost:3000'
+// let path = location.pathname
 // axios.defaults.baseURL = top.location.origin // 自动获取域名
 axios.defaults.baseURL = 'http://localhost:3000'
 axios.defaults.headers = {
@@ -56,4 +57,12 @@ export default {
   addData(params) {
     return post('/manage/addData',params)
   },
+  // 文件上传路径
+  uloadFile(params) {
+    return upload('/common/uploadFile',params)
+  },
+  // 文件上传路径
+  uploadUrl() {
+    return baseUrl + '/common/uploadFile'
+  }
 }

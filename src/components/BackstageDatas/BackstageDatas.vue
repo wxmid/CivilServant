@@ -1,7 +1,7 @@
 <template>
   <div class="backstage-datas">
     <div class="top-part">
-      <Button class="add-data" type="primary" @click="adddata"><Icon type="md-add" /></Button><Input suffix="ios-search" placeholder="Enter text" style="width: auto" />
+      <Button class="add-data" type="primary" @click="adddata"><Icon type="md-add" /></Button><Input suffix="ios-search" placeholder="请输入查询标题" style="width: auto" />
     </div>
     <Table border :columns="dataListTitle" :data="dataList"></Table>
     <Page class-name="t-pager" :total="total" :page-size-opts="pageSizeOpts" :current="current" :page-size="pageSize" show-total show-elevator show-sizer />
@@ -14,10 +14,14 @@
       <Form :model="currentData" :label-width="80">
         <FormItem label="*缩略图">
           <Upload
-            multiple
             type="drag"
             class="upload-ele"
-            action="//jsonplaceholder.typicode.com/posts/">
+            name="thumbnail"
+            :headers="{'Content-Type': 'multipart/formDate'}"
+            :action="uploadUrl"
+            :before-upload="beforeUpload"
+            :on-preview="uploadPreview"
+            :on-success="uploadSuccess">
             <img v-if="currentData.thumbnail" :src="currentData.thumbnail" alt="" class="uload-thumbnail">
             <div v-else style="padding: 20px 0">
               <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
@@ -110,6 +114,9 @@
        <!-- <FormItem label="Slider">
           <Slider v-model="formItem.slider" range></Slider>
         </FormItem>-->
+        <FormItem label="下载链接">
+          <Input type="text" v-model="currentData.url" placeholder="请输入购买基数"></Input>
+        </FormItem>
         <FormItem label="描述">
           <Input v-model="currentData.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入描述内容."></Input>
         </FormItem>
@@ -126,8 +133,9 @@
     name: 'backstageDatas',
     data () {
       return {
+        uploadUrl: this.api.uploadUrl(),
         current: 1,
-        total: 80,
+        total: 0,
         pageSize: 10,
         pageSizeOpts: [10,30,50,100],
         deleteModalShow: false,
@@ -271,10 +279,34 @@
       this.getDataList()
     },
     methods: {
+      uploadSuccess(res) {
+        debugger
+        console.log(res)
+      },
+      uploadPreview(file) {
+        debugger
+        console.log(file)
+      },
+      beforeUpload(file) {
+        debugger
+        /*let params = new FormData()
+        params.append('name', 'imgs')
+        params.append('file', file)
+        this.api.uloadFile(params).then(res => {
+          debugger
+          if (res.status === 0) {
+          } else {
+            this.$Message.error('上传失败！');
+          }
+        }).catch(res => {
+          this.$Message.error('上传失败！');
+        })*/
+      },
       getDataList() {
         let self = this
         this.api.getDataList({}).then(res => {
           if (res.status === 0) {
+            self.total = res.total
             self.dataList = res.list
           } else {
             this.$Message.error('获取数据列表失败！');
@@ -291,6 +323,7 @@
           title: '',
           price: 0,
           browseCount: 0,
+          url: '',
           onOff: false,
           description: ''
         }
