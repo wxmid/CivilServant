@@ -16,8 +16,7 @@
           <Upload
             type="drag"
             class="upload-ele"
-            name="thumbnail"
-            :headers="{'Content-Type': 'multipart/formDate'}"
+            name="file"
             :action="uploadUrl"
             :before-upload="beforeUpload"
             :on-preview="uploadPreview"
@@ -284,11 +283,9 @@
         console.log(res)
       },
       uploadPreview(file) {
-        debugger
         console.log(file)
       },
       beforeUpload(file) {
-        debugger
         /*let params = new FormData()
         params.append('name', 'imgs')
         params.append('file', file)
@@ -318,7 +315,7 @@
       adddata() {
         this.isShow = true
         this.currentData = {
-          thumbnail: 'https://fms.ipinyou.com/5/1C/CE/B5/F001461R_uXg000zM3C4.jpg',
+          thumbnail: '',
           imgList: [],
           title: '',
           price: 0,
