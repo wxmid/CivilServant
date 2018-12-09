@@ -234,7 +234,7 @@
                   },
                   on: {
                     click: () => {
-                      this.currentData = params
+                      this.currentData = params.row
                       this.deleteModalShow = true
                     }
                   }
@@ -279,8 +279,11 @@
     },
     methods: {
       uploadSuccess(res) {
-        debugger
-        console.log(res)
+        if(res.status == 0) {
+          this.currentData.thumbnail = res.src
+        } else {
+          this.$Message.error(res.desc);
+        }
       },
       uploadPreview(file) {
         console.log(file)
@@ -335,17 +338,26 @@
       confirm() {
         let self = this
         let params = this.currentData;
-        this.api.addData(params).then(res => {
+        params.price = Number(params.price)
+        params.browseCount = Number(params.browseCount)
+        /*delete params._rowKey
+        delete params._index
+        delete params.__v*/
+        let path = 'addData'
+        if(params._id) {
+          path = 'editData'
+        }
+        this.api[path](params).then(res => {
           if (res.status === 0) {
             self.getDataList()
-            this.$Message.success('添加成功！');
+            this.$Message.success(params._id ? '编辑成功！' : '添加成功！');
           } else {
-            this.$Message.error('添加失败！');
+            this.$Message.error(params._id ? '编辑失败！' : '添加失败！');
           }
           this.isShow = false
           this.modalLoading = false
         }).catch(res => {
-          this.$Message.error('添加失败！');
+          this.$Message.error('网络错误！');
           this.isShow = false
           this.modalLoading = false
         })
@@ -354,7 +366,19 @@
         console.log('cancel')
       },
       deleteRow(row) {
-
+        debugger
+        this.api.deleteData(this.currentData._id).then(res => {
+          if (res.status === 0) {
+            self.getDataList()
+            this.$Message.success('删除成功！');
+          } else {
+            this.$Message.error('删除失败！');
+          }
+          this.deleteModalShow = false
+        }).catch(res => {
+          this.$Message.error('网络错误！');
+          this.deleteModalShow = false
+        })
       },
       handleView (name) {
         this.imgName = name;
@@ -410,9 +434,12 @@
 <style>
 .thumbnail-wrap {
   padding: 10px 0;
+  text-align: center;
 }
 .thumbnail {
-  width: 100px
+  max-width: 100px;
+  max-height: 100px;
+  vertical-align: middle;
 }
 .uload-thumbnail {
   width: 100%;

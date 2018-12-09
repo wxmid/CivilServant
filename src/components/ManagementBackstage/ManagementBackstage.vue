@@ -32,4 +32,9 @@ export default {
   .container
     width: calc(100% - 200px)
     padding: 10px
+    height: calc(100% - 60px);
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+    overflow: scroll
 </style>

@@ -57,6 +57,14 @@ export default {
   addData(params) {
     return post('/manage/addData',params)
   },
+  // 编辑资料信息
+  editData(params) {
+    return post('/manage/editData',params)
+  },
+  // 编辑资料信息
+  deleteData(params) {
+    return get('/manage/deleteData',params)
+  },
   // 文件上传路径
   uloadFile(params) {
     return upload('/common/uploadFile',params)
