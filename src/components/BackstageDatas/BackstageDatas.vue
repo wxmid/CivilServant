@@ -427,7 +427,7 @@
     .add-data
       margin-right: 20px
   .t-pager
-    margin-top: 10px
+    margin: 10px 0
 .upload-ele
   width: 60%
 </style>

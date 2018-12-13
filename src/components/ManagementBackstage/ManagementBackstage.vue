@@ -20,7 +20,7 @@ export default {
 
 <style scoped lang="stylus">
 .managemant
-  height: 100%
+  height: calc(100% - 60px)
   display: flex
   flex-wrap: wrap
   justify-content: space-between
@@ -32,7 +32,7 @@ export default {
   .container
     width: calc(100% - 200px)
     padding: 10px
-    height: calc(100% - 60px);
+    height: 100%
     -webkit-box-sizing: border-box
     -moz-box-sizing: border-box
     box-sizing: border-box
