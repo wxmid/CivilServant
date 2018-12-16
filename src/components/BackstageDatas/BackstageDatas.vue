@@ -1,10 +1,11 @@
 <template>
   <div class="backstage-datas">
     <div class="top-part">
-      <Button class="add-data" type="primary" @click="adddata"><Icon type="md-add" /></Button><Input suffix="ios-search" placeholder="请输入查询标题" style="width: auto" />
+      <Button class="add-data" type="primary" @click="adddata"><Icon type="md-add" /></Button>
+      <Input v-model="searchTitle" enter-button search placeholder="请输入查询标题" style="width: auto" @on-enter="searchList" @on-search="searchList" />
     </div>
     <Table border :columns="dataListTitle" :data="dataList"></Table>
-    <Page class-name="t-pager" :total="total" :page-size-opts="pageSizeOpts" :current="current" :page-size="pageSize" show-total show-elevator show-sizer />
+    <Page class-name="t-pager" :total="total" :page-size-opts="pageSizeOpts" :current="pageNo" :page-size="pageSize" @on-change="pageNoChange" @on-page-size-change="pageSizeChange" show-total show-elevator show-sizer />
     <Modal
       v-model="isShow"
       title="编辑资料信息"
@@ -69,6 +70,21 @@
         <FormItem label="价格">
           <Input type="text" v-model="currentData.price" placeholder="请输入价格"></Input>
         </FormItem>
+        <FormItem label="一级分类">
+          <Select v-model="class1" style="width:200px">
+            <Option v-for="item in classList" :value="item.value" :key="item.value">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="二级分类" v-if="classList[class1].child.length">
+          <Select v-model="class2" style="width:200px">
+            <Option v-for="item in classList[class1].child" :value="item.value" :key="item.value">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="三级分类" v-if="classList[class1].child.length && classList[class1].child[class2].child.length">
+          <Select v-model="class3" style="width:200px">
+            <Option v-for="item in classList[class1].child[class2].child" :value="item.value" :key="item.value">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="浏览基数">
           <Input type="text" v-model="currentData.browseCount" placeholder="请输入购买基数"></Input>
         </FormItem>
@@ -132,11 +148,12 @@
     name: 'backstageDatas',
     data () {
       return {
+        searchTitle: '',
         uploadUrl: this.api.uploadUrl(),
-        current: 1,
+        pageNo: 1,
         total: 0,
         pageSize: 10,
-        pageSizeOpts: [10,30,50,100],
+        pageSizeOpts: [5,10,30,50,100],
         deleteModalShow: false,
         formItem: {
           input: '',
@@ -268,7 +285,94 @@
         }*/,
         imgName: '',
         visible: false,
-        uploadList: []
+        uploadList: [],
+        class1: 0,
+        class2: 0,
+        class3: 0,
+        classList: [
+          {
+            name: '国考',
+            value: 0,
+            child: [
+              {
+                name: '行策',
+                value: 0,
+                child: [
+                  {
+                    name: '常识判断',
+                    value: 0
+                  },
+                  {
+                    name: '言语理解与表达',
+                    value: 1
+                  },
+                  {
+                    name: '数量关系',
+                    value: 2
+                  },
+                  {
+                    name: '判断推理',
+                    value: 3
+                  },
+                  {
+                    name: '资料分析',
+                    value: 4
+                  },
+                ]
+              },
+              {
+                name: '申论',
+                value: 1,
+                child: []
+              }
+            ]
+          },
+          {
+            name: '省考',
+            value: 1,
+            child: [
+              {
+                name: '行策',
+                value: 0,
+                child: [
+                  {
+                    name: '常识判断',
+                    value: 0
+                  },
+                  {
+                    name: '言语理解与表达',
+                    value: 1
+                  },
+                  {
+                    name: '数量关系',
+                    value: 2
+                  },
+                  {
+                    name: '判断推理',
+                    value: 3
+                  },
+                  {
+                    name: '资料分析',
+                    value: 4
+                  },
+                ]
+              },
+              {
+                name: '申论',
+                value: 1,
+                child: []
+              }
+            ]
+          },
+        ]
+      }
+    },
+    watch: {
+      class1(val, oldVal) {
+        this.class2 = 0
+      },
+      class2(val, oldVal) {
+        this.class3 = 0
       }
     },
     mounted () {
@@ -278,6 +382,18 @@
       this.getDataList()
     },
     methods: {
+      // 分页页码改变回调
+      pageNoChange(val) {
+        this.pageNo = val;
+        this.getDataList();
+      },
+      pageSizeChange(val) {
+        debugger
+        this.pageSize = val;
+        if(this.pageNo == 1) {
+          this.getDataList();
+        }
+      },
       uploadSuccess(res) {
         if(res.status == 0) {
           this.currentData.thumbnail = res.src
@@ -302,9 +418,18 @@
           this.$Message.error('上传失败！');
         })*/
       },
+      searchList() {
+       this.pageNo = 1;
+       this.getDataList();
+      },
       getDataList() {
         let self = this
-        this.api.getDataList({}).then(res => {
+        let params = {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize,
+          title: this.searchTitle
+        }
+        this.api.getDataList({params}).then(res => {
           if (res.status === 0) {
             self.total = res.total
             self.dataList = res.list
@@ -366,8 +491,9 @@
         console.log('cancel')
       },
       deleteRow(row) {
-        debugger
-        this.api.deleteData(this.currentData._id).then(res => {
+        let self = this;
+        let params = {_id: this.currentData._id}
+        this.api.deleteData({params}).then(res => {
           if (res.status === 0) {
             self.getDataList()
             this.$Message.success('删除成功！');
@@ -424,6 +550,7 @@
   .top-part
     padding: 20px
     text-align: left
+    display: flex
     .add-data
       margin-right: 20px
   .t-pager
@@ -442,7 +569,9 @@
   vertical-align: middle;
 }
 .uload-thumbnail {
-  width: 100%;
+  max-width: 250px;
+  max-height:250px;
+  vertical-align: middle;
 }
 
 .demo-upload-list{

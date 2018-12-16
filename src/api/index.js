@@ -21,7 +21,7 @@ axios.interceptors.request.use(
     if (config.method === 'post') {
       config.data = JSON.stringify(config.data)
     } else if (config.method === 'get') {
-      config.data = qs.stringify(config.data)
+      // config.data = qs.stringify(config.data)
     }
     return config
   },
@@ -46,6 +46,9 @@ function upload (path, params) {
 function get (path, params) {
   return axios.get(path, params)
 }
+function del (path, params) {
+  return axios.delete(path, params)
+}
 
 // 请求接口
 export default {
@@ -63,7 +66,7 @@ export default {
   },
   // 编辑资料信息
   deleteData(params) {
-    return get('/manage/deleteData',params)
+    return del('/manage/deleteData',params)
   },
   // 文件上传路径
   uloadFile(params) {
