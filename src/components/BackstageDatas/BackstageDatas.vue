@@ -144,6 +144,7 @@
 </template>
 
 <script>
+import data from 'common/js/data.js'
   export default {
     name: 'backstageDatas',
     data () {
@@ -289,91 +290,29 @@
         class1: 0,
         class2: 0,
         class3: 0,
-        classList: [
-          {
-            name: '国考',
-            value: 0,
-            child: [
-              {
-                name: '行策',
-                value: 0,
-                child: [
-                  {
-                    name: '常识判断',
-                    value: 0
-                  },
-                  {
-                    name: '言语理解与表达',
-                    value: 1
-                  },
-                  {
-                    name: '数量关系',
-                    value: 2
-                  },
-                  {
-                    name: '判断推理',
-                    value: 3
-                  },
-                  {
-                    name: '资料分析',
-                    value: 4
-                  },
-                ]
-              },
-              {
-                name: '申论',
-                value: 1,
-                child: []
-              }
-            ]
-          },
-          {
-            name: '省考',
-            value: 1,
-            child: [
-              {
-                name: '行策',
-                value: 0,
-                child: [
-                  {
-                    name: '常识判断',
-                    value: 0
-                  },
-                  {
-                    name: '言语理解与表达',
-                    value: 1
-                  },
-                  {
-                    name: '数量关系',
-                    value: 2
-                  },
-                  {
-                    name: '判断推理',
-                    value: 3
-                  },
-                  {
-                    name: '资料分析',
-                    value: 4
-                  },
-                ]
-              },
-              {
-                name: '申论',
-                value: 1,
-                child: []
-              }
-            ]
-          },
-        ]
+        classList: data.classList
       }
     },
     watch: {
-      class1(val, oldVal) {
-        this.class2 = 0
+/*      class1(val, oldVal) {
+        if(this.classList[this.class1].child.length) {
+          this.class2 = 0
+          if(this.classList[this.class1].child[this.class2].child.length) {
+            this.class3 = 0
+          } else {
+            this.class3 = null
+          }
+        } else {
+          this.class2 = null
+        }
       },
       class2(val, oldVal) {
-        this.class3 = 0
-      }
+        if(this.classList[this.class1].child[this.class2].child.length) {
+          this.class3 = 0
+        } else {
+          this.class3 = null
+        }
+      }*/
     },
     mounted () {
       this.uploadList = this.$refs.upload.fileList;
@@ -450,12 +389,21 @@
           browseCount: 0,
           url: '',
           onOff: false,
-          description: ''
+          description: '',
+          class1: '',
+          class2: '',
+          class3: ''
         }
+        this.class1 = 0
+        this.class2 = 0
+        this.class3 = 0
       },
       editDatas (data) {
         this.isShow = true
         this.currentData = data.row
+        this.class1 = this.currentData.class1
+        this.class2 = this.currentData.class2
+        this.class3 = this.currentData.class3
       },
       remove (data) {
         this.dataList.splice(data.index, 1)
@@ -463,6 +411,9 @@
       confirm() {
         let self = this
         let params = this.currentData;
+        params.class1 = this.class1
+        params.class2 = this.class2
+        params.class3 = this.class3
         params.price = Number(params.price)
         params.browseCount = Number(params.browseCount)
         /*delete params._rowKey
