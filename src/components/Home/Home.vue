@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-model="currentPath = $route.fullPath">
     <div class="banner">
       <Carousel autoplay v-model="currentBanner" loop>
         <CarouselItem v-for="(item,index) in bannerList" :key="item+index">
@@ -24,11 +24,23 @@
         </div>
       </div>
       <div class="h-header">
-        <div class="h-h-item second_level_active">全部</div>
-        <div class="h-h-item">行策</div>
-        <div class="h-h-item">申论</div>
-        <div class="h-h-item">专业课</div>
-        <div class="h-h-item search-result">共找到 61875 个相关内容</div>
+        <div class="second-level-list">
+          <div class="h-h-item" :class="{second_level_active: class2 == null}" @click="class2 = null"><span>全部</span></div>
+            <template v-if="class1 != null">
+              <div class="h-h-item" v-for="(item,index) in classList[class1].child" :class="{second_level_active: class2 == item.value}" @click="class2 = item.value"><span>{{item.name}}</span></div>
+            </template>
+          <div class="h-h-item search-result">共找到 61875 个相关内容</div>
+        </div>
+        <div class="third-level-list">
+          <div class="third-lv-item" :class="{third_level_active: class3 == null}" @click="class3 = null">
+            <span>全部</span>
+          </div>
+          <template v-if="class1 != null && class2 != null">
+            <div class="third-lv-item" v-for="(item,index) in classList[class1].child[class2].child" :class="{third_level_active: class3 == item.value}" @click="class3 = item.value">
+              <span>{{item.name}}</span>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
     <div class="h-container">
@@ -54,6 +66,7 @@
 <script>
 import Header from '../../base/Header/Header.vue'
 import Footer from '../../base/Footer/Footer.vue'
+import data from 'common/js/data.js'
 export default {
   name: 'home',
   components: {
@@ -73,30 +86,43 @@ export default {
         }
       ],
       currentBanner: 0,
-      toTop: false
+      toTop: false,
+      class1: null,
+      class2: null,
+      class3: null,
+      currentPath: '',
+      classList: data.classList
+    }
+  },
+  watch: {
+    currentPath(val,oldVal) {
+//      debugger
+      this.class1 = val.split('=').length == 2 ? parseInt(val.split('=')[1]) : null
+      console.log(this.class1)
+//      if(typeof this.class1 === "number") {
+        this.getDataList()
+//      }
     }
   },
   mounted () {
-    this.lisentnerScroll()
+//    this.lisentnerScroll()
   },
   created () {
-    this.api.getDataList(1).then((res) => {
-      debugger
-      if (res.status === 200) {
-        console.log(res.data)
-      }
-    });
   },
   methods: {
+    getDataList() {
+      this.api.getDataList(1).then((res) => {
+//      debugger
+        if (res.status === 200) {
+          console.log(res.data)
+        }
+      });
+    },
     lisentnerScroll () {
       let self = this
       document.onscroll = function () {
         let scrolltop = document.documentElement.scrollTop
         let offsetTop = document.getElementsByClassName('fast-search')[0].offsetTop
-        /* console.log("scrolltop:" + scrolltop)
-        console.log("offsetTop:" + offsetTop)
-        console.log("scrolltop - offsetTop:" +(scrolltop - offsetTop))
-        */
         if (scrolltop >= 622) {
           self.toTop = true
         } else {
@@ -172,22 +198,54 @@ export default {
       label
         margin-left: 15px
   .h-header
-    display: flex
-    justify-content: flex-start
-    width: 100%
     padding: 10px 20px 0 20px
     margin-top:6px
     background: #fff
-    .h-h-item
-      width: 120px
-      height: 48px
-      line-height: 48px
-      font-size: 18px
-    .second_level_active
-      color: $title-color
-    .search-result
-      font-size: 13px
-      min-width: 180px
+    .second-level-list
+      display: flex
+      justify-content: flex-start
+      width: 100%
+      .h-h-item
+        padding: 0 25px
+        line-height: 32px
+        font-size: 16px
+      .second_level_active
+        color: $title-color
+        span
+          position: relative
+          &:before
+            content: ' ';
+            position: absolute;
+            bottom: -8px;
+            background: #f01414;
+            width: 16px;
+            height: 3px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transform: translateX(-50%);
+      .search-result
+        font-size: 13px
+        min-width: 180px
+    .third-level-list
+      display: flex
+      justify-content: flex-start
+      align-items: center
+      padding: 10px
+      .third-lv-item
+        padding: 10px
+        span
+          font-size: 14px
+          padding: 8px
+          -webkit-border-radius: 16px
+          -moz-border-radius: 16px
+          border-radius: 16px
+      .third_level_active
+        span
+          background: #909090
+          color: #ffffff
   .h-container
     height: calc(100% -100px)
     padding :0px 20px 20px 20px

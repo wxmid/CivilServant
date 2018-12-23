@@ -52,7 +52,8 @@ export default {
           path: '/memberShip'
         }],
       isShowLogin: false,
-      login: true
+      login: true,
+      class1: null
     }
   },
   mounted () {

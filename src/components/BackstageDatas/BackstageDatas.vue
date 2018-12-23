@@ -294,25 +294,13 @@ import data from 'common/js/data.js'
       }
     },
     watch: {
-/*      class1(val, oldVal) {
-        if(this.classList[this.class1].child.length) {
-          this.class2 = 0
-          if(this.classList[this.class1].child[this.class2].child.length) {
-            this.class3 = 0
-          } else {
-            this.class3 = null
-          }
-        } else {
-          this.class2 = null
-        }
+      class1(val, oldVal) {
+        this.class2 = 0
+        this.class3 = null
       },
       class2(val, oldVal) {
-        if(this.classList[this.class1].child[this.class2].child.length) {
-          this.class3 = 0
-        } else {
-          this.class3 = null
-        }
-      }*/
+        this.class3 = null
+      }
     },
     mounted () {
       this.uploadList = this.$refs.upload.fileList;
