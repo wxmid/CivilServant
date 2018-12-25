@@ -13,7 +13,7 @@
       <div class="search">
         <div class="search-el">
           <div class="search-cont">
-            <Icon type="ios-search-outline" /><input type="text"><button class="search-btn" id="searchContent">搜索</button>
+            <Icon type="ios-search-outline" /><input type="text" v-model="title"><button class="search-btn" id="searchContent" @click="filtDataList">搜索</button>
           </div>
         </div>
         <div class="hot-search">
@@ -45,16 +45,16 @@
     </div>
     <div class="h-container">
       <div class="h-c-list">
-        <div class="h-c-item" v-for="(item,index) in 19" :key="item" @click="goToDetail(index)">
+        <div class="h-c-item" v-for="(item,index) in dataList" :key="item._id" @click="goToDetail(item._id)">
           <div class="h-c-pic">
-            <img src="/static/img/zl.jpg" :alt="index">
+            <img :src="item.thumbnail" :alt="item.title">
           </div>
           <div class="h-c-abstract">
-            <div class="abs-title">笔试系统班图书大礼包：2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）</div>
+            <div class="abs-title">{{item.title}}</div>
             <div class="abs-describtion">
-              <span class="free" v-if="index%2">免费</span>
-              <span class="charge" v-else>￥39.80 / VIP</span>
-              <Icon type="ios-people" class="browsers" /> <span>137</span>
+              <span class="free" v-if="item.price == 0">免费</span>
+              <span class="charge" v-else>￥{{item.price}} / VIP</span>
+              <Icon type="ios-people" class="browsers" /> <span>{{item.browseCount}}</span>
             </div>
           </div>
         </div>
@@ -91,30 +91,51 @@ export default {
       class2: null,
       class3: null,
       currentPath: '',
-      classList: data.classList
+      classList: data.classList,
+      dataList: [],
+      title: '',
+      pageNo: 1,
+      pageSize: 10,
+      total: 0,
     }
   },
   watch: {
     currentPath(val,oldVal) {
-//      debugger
       this.class1 = val.split('=').length == 2 ? parseInt(val.split('=')[1]) : null
       console.log(this.class1)
-//      if(typeof this.class1 === "number") {
-        this.getDataList()
-//      }
-    }
+    },
+    class1(val,oldVal) {
+      this.class2 = null;
+      this.class3 = null;
+    },
+    class2(val,oldVal) {
+      this.class3 = null;
+    },
   },
   mounted () {
 //    this.lisentnerScroll()
   },
   created () {
+    this.filtDataList();
   },
   methods: {
-    getDataList() {
-      this.api.getDataList(1).then((res) => {
-//      debugger
-        if (res.status === 200) {
-          console.log(res.data)
+// 获取筛选列表
+    filtDataList() {
+      let params = {
+        class1: this.class1,
+        class2:this.class2,
+        class3:this.class3,
+        title: this.title,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        title: this.title
+      }
+      let self = this
+      this.api.filtDataList(params).then((res) => {
+        debugger
+        if (res.status === 0) {
+          self.dataList = res.list
+          console.log(res.list)
         }
       });
     },
@@ -319,6 +340,6 @@ export default {
 </style>
 <style>
   html::-webkit-scrollbar {
-    display: none
+    /*display: none*/
   }
 </style>

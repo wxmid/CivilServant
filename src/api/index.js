@@ -75,5 +75,9 @@ export default {
   // 文件上传路径
   uploadUrl() {
     return baseUrl + '/common/uploadFile'
-  }
+  },
+  // 用户端获取筛选数据列表
+  filtDataList(params) {
+    return post('/data/getdataList',params)
+  },
 }
