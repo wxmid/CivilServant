@@ -5,7 +5,7 @@
       <div class="title">{{login ? '登陆' : '注册'}}</div>
       <div class="login-modal" v-if="login">
         <div class="account">
-          <label><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
+          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号">
         </div>
         <div class="account">
           <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
@@ -17,14 +17,14 @@
       </div>
       <div class="register-modal" v-else>
         <div class="account">
-          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="text" placeholder="请输入手机号">
+          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号">
         </div>
         <div class="account verif-code">
           <input type="text" placeholder="请输入验证码"><button>获取验证码</button>
         </div>
-        <div class="account">
+        <!--<div class="account">
           <label><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
-        </div>
+        </div>-->
         <div class="account">
           <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
         </div>
@@ -73,6 +73,13 @@ export default {
 
 <style scoped lang="stylus">
 @import "~common/style/styl"
+/*在谷歌下移除input[number]的上下箭头*/
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button{
+  -webkit-appearance: none !important;
+}
+/*在firefox下移除input[number]的上下箭头*/
+input[type="number"]{-moz-appearance:textfield;}
 .login
   position: fixed
   left: 0

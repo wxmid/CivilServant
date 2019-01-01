@@ -130,7 +130,10 @@
           <Slider v-model="formItem.slider" range></Slider>
         </FormItem>-->
         <FormItem label="下载链接">
-          <Input type="text" v-model="currentData.url" placeholder="请输入购买基数"></Input>
+          <Input type="text" v-model="currentData.url" placeholder="请输入下载链接"></Input>
+        </FormItem>
+        <FormItem label="提取码">
+          <Input type="text" v-model="currentData.extCode" placeholder="请输入提取码"></Input>
         </FormItem>
         <FormItem label="描述">
           <Input v-model="currentData.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入描述内容."></Input>
@@ -172,7 +175,7 @@ import data from 'common/js/data.js'
         dataListTitle: [
           {
             title: '资料图',
-            width: 140,
+            width: 120,
             key: 'thumbnail',
             render: (h, params) => {
               return h('div',
@@ -204,19 +207,19 @@ import data from 'common/js/data.js'
             key: 'url'
           },
           {
+            title: '提取码',
+            key: 'extCode'
+          },
+          {
             title: '课程类别',
-            key: 'rights'
+            key: 'class1'
           },
           {
             title: '价格',
             key: 'price',
+            width: 80,
             render: (h, params) => {
               return h('div', [
-                h('Icon', {
-                  props: {
-                    type: 'person'
-                  }
-                }),
                 h('span', params.row.price + '元')
               ])
             }
@@ -224,7 +227,7 @@ import data from 'common/js/data.js'
           {
             title: '操作',
             key: 'action',
-            width: 150,
+            width: 130,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -376,6 +379,7 @@ import data from 'common/js/data.js'
           price: 0,
           browseCount: 0,
           url: '',
+          extCode: '',
           onOff: false,
           description: '',
           class1: '',

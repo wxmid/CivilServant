@@ -13,7 +13,7 @@
       <div class="search">
         <div class="search-el">
           <div class="search-cont">
-            <Icon type="ios-search-outline" /><input type="text" v-model="title"><button class="search-btn" id="searchContent" @click="filtDataList">搜索</button>
+            <Icon type="ios-search-outline" /><input type="text" v-model="title" placeholder="输入内容全局搜索"><button class="search-btn" id="searchContent" @click="globalSearch">搜索</button>
           </div>
         </div>
         <div class="hot-search">
@@ -29,7 +29,7 @@
             <template v-if="class1 != null">
               <div class="h-h-item" v-for="(item,index) in classList[class1].child" :class="{second_level_active: class2 == item.value}" @click="class2 = item.value"><span>{{item.name}}</span></div>
             </template>
-          <div class="h-h-item search-result">共找到 61875 个相关内容</div>
+          <div class="h-h-item search-result">共找到 {{total ? total : 0}} 个相关内容</div>
         </div>
         <div class="third-level-list">
           <div class="third-lv-item" :class="{third_level_active: class3 == null}" @click="class3 = null">
@@ -107,9 +107,18 @@ export default {
     class1(val,oldVal) {
       this.class2 = null;
       this.class3 = null;
+      this.filtDataList();
     },
     class2(val,oldVal) {
       this.class3 = null;
+      if(val != null) {
+        this.filtDataList();
+      }
+    },
+    class3(val,oldVal) {
+      if(val != null) {
+        this.filtDataList();
+      }
     },
   },
   mounted () {
@@ -119,6 +128,12 @@ export default {
     this.filtDataList();
   },
   methods: {
+//全局搜索
+    globalSearch() {
+      debugger
+      this.$router.push('/home');
+      this.filtDataList()
+    },
 // 获取筛选列表
     filtDataList() {
       let params = {
@@ -132,9 +147,9 @@ export default {
       }
       let self = this
       this.api.filtDataList(params).then((res) => {
-        debugger
         if (res.status === 0) {
           self.dataList = res.list
+          self.total = res.total
           console.log(res.list)
         }
       });
@@ -230,6 +245,7 @@ export default {
         padding: 0 25px
         line-height: 32px
         font-size: 16px
+        cursor: pointer
       .second_level_active
         color: $title-color
         span
@@ -257,6 +273,7 @@ export default {
       padding: 10px
       .third-lv-item
         padding: 10px
+        cursor: pointer
         span
           font-size: 14px
           padding: 8px
@@ -283,7 +300,7 @@ export default {
         display: none
       .h-c-item
         width: 300px
-        height: 240px
+        /*height: 240px*/
         padding:10px 20px
         text-align: left
         margin: 0 0px 20px 0
@@ -303,8 +320,13 @@ export default {
           -o-animation: moveAnimation 0.4s
           animation-fill-mode: forwards;*/
         .h-c-pic
+          height: 146px
+          display: flex
+          justify-content: center
+          align-items: center
           img
-            width: 100%
+            max-width: 100%
+            max-height: 100%
             -webkit-border-radius: 6px
             -moz-border-radius:6px
             border-radius: 6px
@@ -320,6 +342,7 @@ export default {
           -webkit-line-clamp: 2;
           line-clamp: 2;
           -webkit-box-orient: vertical;
+          margin-top: 8px
         .abs-describtion
           font-size: 13px
           margin:5px 0

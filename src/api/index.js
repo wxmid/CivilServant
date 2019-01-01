@@ -1,6 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
-axios.defaults.timeout = 15000
+axios.defaults.timeout = 80000
 axios.defaults.withCredentials = false
 let path = location.origin
 let baseUrl = 'http://localhost:3000'
@@ -79,5 +79,9 @@ export default {
   // 用户端获取筛选数据列表
   filtDataList(params) {
     return post('/data/getdataList',params)
+  },
+  // 根据id获取资料详情
+  getDetail(params) {
+    return get('/data/getdataDetail',params)
   },
 }

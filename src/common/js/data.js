@@ -7,7 +7,7 @@ const classList = [
     value: 0,
     child: [
       {
-        name: '行策',
+        name: '行测',
         value: 0,
         child: [
           {
@@ -44,7 +44,7 @@ const classList = [
     value: 1,
     child: [
       {
-        name: '行策',
+        name: '行测',
         value: 0,
         child: [
           {

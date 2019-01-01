@@ -83,7 +83,7 @@ export default {
       height: 72px;
       line-height: 72px;
       text-align: left;
-      max-width:1200px;
+      max-width:1100px;
       min-width: 960px;
       margin: 0 auto;
       display: flex;
@@ -131,4 +131,15 @@ export default {
       display: inline-block
       vertical-align: middle!important
       margin-top: -4px;
+</style>
+<style lang="stylus">
+@media screen and (max-width: 1000px) {
+  .top-list {
+    .top-item {
+      font-size: 14px!important;
+      max-width: 78px!important;
+      max-width: 94px
+    }
+  }
+}
 </style>

@@ -6,26 +6,30 @@
           <img src="/static/img/mainImg.jpg" alt="">
         </div>
         <div class="main-describ">
-          <div class="m-title">2018下半年四川省考4期（部分回放）2018下半年四川省考4期（部分回放）</div>
+          <div class="m-title">{{dataDetail.title}}</div>
           <div class="m-row">
             <span class="m-r-title">价值：</span>
-            <span v-if="id%2">￥{{selectedCateg.price.toFixed(2)}}/ VIP</span>
+            <span v-if="selectedCateg.price == 0">￥{{selectedCateg.price.toFixed(2)}}/ VIP</span>
             <span v-else class="m-free">免费</span>
           </div>
-          <div class="m-row curse-category">
+          <!--<div class="m-row curse-category">
             <span class="m-r-title">课程类别:</span>
             <div class="categ-list">
               <span v-for="item in product.categList" :class="{activeCateg: selectedCateg.id === item.id}" :key="item.id" @click="selectCateg(item)">{{item.categName}}</span>
             </div>
-          </div>
+          </div>-->
           <div class="m-row">
             <span class="m-r-title">下载链接：</span>
-            <a :href="panLink" target="_blank" class="pan-link" v-if="isShow">{{panLink}}</a>
+            <a :href="dataDetail.url" target="_blank" class="pan-link" v-if="dataDetail.url">{{dataDetail.url}} 提取码：{{dataDetail.extCode}}</a>
             <span class="default-text" v-else>{{defaultText}}</span>
           </div>
           <div class="m-row buy-upgread">
             <button>立即购买</button>
             <button>升级为VIP</button>
+          </div>
+          <div class="m-row">
+            <span class="m-r-title">描述：</span>
+            <span class="desc-txt">{{dataDetail.description}}</span>
           </div>
         </div>
       </div>
@@ -38,9 +42,8 @@ export default {
   name: 'detail',
   data () {
     return {
+      dataDetail: {},
       id: '',
-      isShow: false,
-      panLink: 'https://www.mindwin.com',
       defaultText: 'VIP会员或单独购买后可看链接',
       selectedCateg: {
         id: 0,
@@ -80,10 +83,27 @@ export default {
   created () {
     this.id = this.$route.query.id
     this.selectedCateg = this.product.categList[0]
+    this.getDetail();
   },
   methods: {
     selectCateg (data) {
       this.selectedCateg = data
+    },
+    // 根据id获取资料详情
+    getDetail() {
+      let params = {
+        _id: this.id
+      }
+      this.api.getDetail({params}).then(res => {
+        if (res.status === 0) {
+          this.dataDetail = res.data;
+          console.log(this.dataDetail)
+        } else {
+          this.$Message.error(res.desc);
+        }
+      }).catch(res => {
+        this.$Message.error('网络开小差了...');
+      })
     }
   }
 }
@@ -95,20 +115,23 @@ export default {
   background: #fff
   padding: 50px 0
   .d-container
-    width: 1000px
+    max-width: 1200px
     margin: 0 auto
     .main-img-describ
       display: flex
       justify-content:space-between
       /*align-items: center*/
       .main-img
-        width: 50%
+        width: 40%
         img
           width: 100%
       .main-describ
-        width: 50%
+        width: 60%
         padding-left: 20px
         text-align: left
+        -webkit-box-sizing: border-box
+        -moz-box-sizing: border-box
+        box-sizing: border-box
         .m-title
           font-size  16px
           font-weight:bolder
@@ -134,6 +157,9 @@ export default {
             font-weight: normal
             border: 1px dashed #ddd
             color: #999
+          .desc-txt
+            font-size: 12px
+            font-weight: normal
         .buy-upgread
           button
             color: #E5511D;

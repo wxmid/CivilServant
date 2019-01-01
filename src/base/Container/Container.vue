@@ -27,6 +27,7 @@ export default {
 
 <style scoped lang="stylus">
   .ct-page
+    min-width: 1000px
     height: 100%
     .container
       min-height: calc(100% - 130px)
