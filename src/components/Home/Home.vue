@@ -105,17 +105,21 @@ export default {
       console.log(this.class1)
     },
     class1(val,oldVal) {
+      this.title = '';
       this.class2 = null;
       this.class3 = null;
+      this.title = '';
       this.filtDataList();
     },
     class2(val,oldVal) {
+      this.title = '';
       this.class3 = null;
       if(val != null) {
         this.filtDataList();
       }
     },
     class3(val,oldVal) {
+      this.title = '';
       if(val != null) {
         this.filtDataList();
       }

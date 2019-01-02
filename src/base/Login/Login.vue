@@ -5,10 +5,10 @@
       <div class="title">{{login ? '登陆' : '注册'}}</div>
       <div class="login-modal" v-if="login">
         <div class="account">
-          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号">
+          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号" v-model="phone">
         </div>
         <div class="account">
-          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码" v-model="password">
         </div>
         <div class="password-settings">
           <div class="remember-password"><input type="checkbox"><span> 记住密码</span></div>
@@ -17,19 +17,19 @@
       </div>
       <div class="register-modal" v-else>
         <div class="account">
-          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号">
+          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号" v-model="phone">
         </div>
         <div class="account verif-code">
-          <input type="text" placeholder="请输入验证码"><button>获取验证码</button>
+          <input type="text" placeholder="请输入验证码" v-model="verificationCode"><button :class="{disabledbtn: !isPhone || !cangetVeriCode}" :disabled="!isPhone || !cangetVeriCode" @click="getVeriCode">{{getVeriBtnTxt}}</button>
         </div>
         <!--<div class="account">
           <label><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
         </div>-->
         <div class="account">
-          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码(6-16位字符)" v-model="password">
         </div>
         <div class="account">
-          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码" v-model="password">
         </div>
       </div>
       <div class="login-register">
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import phoneVerific from '../../common/js/verification.js'
 export default {
   name: 'login',
   props: {
@@ -53,11 +54,37 @@ export default {
   },
   data () {
     return {
+      phone: '',
+      password: '',
+      isPhone: false,
+      cangetVeriCode: false,
+      verificationCode: '',
+      getVeriBtnTxt: '获取验证码'
     }
   },
   watch: {
+    phone(val,oldVal) {
+      this.isPhone = phoneVerific.isPoneAvailable(this.phone)
+      this.cangetVeriCode = phoneVerific.isPoneAvailable(this.phone)
+      console.log(this.isPhone)
+    }
   },
   methods: {
+    getVeriCode() {
+      this.cangetVeriCode = false
+      let time = 10
+      let timer = setInterval(() => {
+        time--
+        if(time < 0) {
+          this.getVeriBtnTxt = "重新发送"
+          this.isPhone = phoneVerific.isPoneAvailable(this.phone)
+          this.cangetVeriCode = phoneVerific.isPoneAvailable(this.phone)
+          clearInterval(timer)
+        } else {
+          this.getVeriBtnTxt = "重新发送(" + time + "s)"
+        }
+      },1000)
+    },
     close () {
       this.$emit('close', false)
     },
@@ -80,6 +107,9 @@ input[type='number']::-webkit-inner-spin-button{
 }
 /*在firefox下移除input[number]的上下箭头*/
 input[type="number"]{-moz-appearance:textfield;}
+.disabledbtn
+  background: #cccccc!important
+  border-color: #cccccc !important
 .login
   position: fixed
   left: 0
@@ -162,7 +192,7 @@ input[type="number"]{-moz-appearance:textfield;}
         height: 40px
         background: $mw-active
         color: #ffffff
-        font-size: 16px
+        font-size: 15px
         outline: none
         -webkit-border-radius: 6px
         -moz-border-radius:6px
