@@ -9,8 +9,18 @@ function isPoneAvailable(phone) {
     return true;
   }
 }
+//校验密码：只能输入6-20个字母、数字、下划线
+function isPasswd(s) {
+  // var patrn = /^(\w){6,20}$/;
+  // if (!patrn.exec(s)) return false
+  if(s >= 6 && s <= 20 ) return true
+  return false
+}
 export default {
   isPoneAvailable(phone) {
     return isPoneAvailable(phone)
+  },
+  isPasswd(psw) {
+    return isPasswd(psw)
   }
 }

@@ -25,7 +25,7 @@ export default {
           }
         },
         {
-          title: '会员期限',
+          title: '会员期限(购买之日起)',
           key: 'term'
         },
         {

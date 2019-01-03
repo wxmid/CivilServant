@@ -5,10 +5,10 @@
       <div class="title">{{login ? '登陆' : '注册'}}</div>
       <div class="login-modal" v-if="login">
         <div class="account">
-          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号" v-model="phone">
+          <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号" v-model="loginPhone">
         </div>
         <div class="account">
-          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码" v-model="password">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码" v-model="loginPassword">
         </div>
         <div class="password-settings">
           <div class="remember-password"><input type="checkbox"><span> 记住密码</span></div>
@@ -20,16 +20,16 @@
           <label><i class="iconfont icon-shurushoujihao"></i></label><input type="number" placeholder="请输入手机号" v-model="phone">
         </div>
         <div class="account verif-code">
-          <input type="text" placeholder="请输入验证码" v-model="verificationCode"><button :class="{disabledbtn: !isPhone || !cangetVeriCode}" :disabled="!isPhone || !cangetVeriCode" @click="getVeriCode">{{getVeriBtnTxt}}</button>
+          <input type="number" placeholder="请输入验证码" v-model="verificationCode"><button :class="{disabledbtn: !isPhone || !cangetVeriCode}" :disabled="!isPhone || !cangetVeriCode" @click="getVeriCode">{{getVeriBtnTxt}}</button>
         </div>
         <!--<div class="account">
           <label><i class="iconfont icon-zhanghao"></i></label><input type="text" placeholder="请输入用户名">
         </div>-->
         <div class="account">
-          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码(6-16位字符)" v-model="password">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请输入密码(6~20位字符)" v-model="password">
         </div>
         <div class="account">
-          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码" v-model="password">
+          <label><i class="iconfont icon-pwd"></i></label><input type="password" placeholder="请再次输入密码" v-model="confirmPassword">
         </div>
       </div>
       <div class="login-register">
@@ -55,7 +55,10 @@ export default {
   data () {
     return {
       phone: '',
+      loginPhone: '',
       password: '',
+      loginPassword: '',
+      confirmPassword: '',
       isPhone: false,
       cangetVeriCode: false,
       verificationCode: '',
@@ -70,6 +73,32 @@ export default {
     }
   },
   methods: {
+    checkLoginRegister() {
+      if(this.login) {
+        if(!phoneVerific.isPoneAvailable(this.loginPhone)) {
+          this.$Message.error("请输入正确的手机号");
+          return false
+        } else if(!phoneVerific.isPasswd(this.loginPassword)) {
+          this.$Message.error("密码为6~20位字符");
+          return false
+        }
+      } else {
+        if(!phoneVerific.isPoneAvailable(this.phone)) {
+          this.$Message.error("请输入正确的手机号");
+          return false
+        } else if(this.verificationCode.length != 6) {
+          this.$Message.error("请正确输入验证码");
+          return false
+        } else if(!phoneVerific.isPasswd(this.password)) {
+          this.$Message.error("密码为6~20位字符");
+          return false
+        } else if(this.password != this.confirmPassword) {
+          this.$Message.error("两次密码不一致");
+          return false
+        }
+      }
+      return true
+    },
     getVeriCode() {
       this.cangetVeriCode = false
       let time = 10
@@ -238,6 +267,7 @@ input[type="number"]{-moz-appearance:textfield;}
         height: 40px
         line-height: 40px
         padding: 0 20px
+        cursor: default
   .register-modal
     .account
       margin-top:15px
