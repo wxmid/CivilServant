@@ -21,7 +21,7 @@ axios.interceptors.request.use(
     if (config.method === 'post') {
       config.data = JSON.stringify(config.data)
     } else if (config.method === 'get') {
-      // config.data = qs.stringify(config.data)
+      config.data = qs.stringify(config.data)
     }
     return config
   },
@@ -83,5 +83,13 @@ export default {
   // 根据id获取资料详情
   getDetail(params) {
     return get('/data/getdataDetail',params)
+  },
+  // 新用户注册
+  register(params) {
+    return post('/user/register',params)
+  },
+  // 用户登录
+  login(params) {
+    return get('/user/login',params)
   },
 }

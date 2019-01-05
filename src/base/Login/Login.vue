@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="login-register">
-        <button>{{login ? '登陆' : '注册'}}</button>
+        <button @click="registerLogin">{{login ? '登陆' : '注册'}}</button>
       </div>
       <div class="revert-lg-rg">
         <span @click="loginOrRegist">去{{login ? '注册' : '登陆'}} <i class="iconfont icon-arrowhead-top"></i></span>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import phoneVerific from '../../common/js/verification.js'
+import verification from '../../common/js/verification.js'
 export default {
   name: 'login',
   props: {
@@ -62,34 +62,72 @@ export default {
       isPhone: false,
       cangetVeriCode: false,
       verificationCode: '',
-      getVeriBtnTxt: '获取验证码'
+      getVeriBtnTxt: '获取验证码',
     }
   },
   watch: {
     phone(val,oldVal) {
-      this.isPhone = phoneVerific.isPoneAvailable(this.phone)
-      this.cangetVeriCode = phoneVerific.isPoneAvailable(this.phone)
+      this.isPhone = verification.isPoneAvailable(this.phone)
+      this.cangetVeriCode = verification.isPoneAvailable(this.phone)
       console.log(this.isPhone)
     }
   },
+  created() {
+  },
   methods: {
+    //新用户注册
+    registerLogin() {
+      if(!this.checkLoginRegister()) return false
+      let self = this;
+      let params = {}
+      let capi = 'register'
+      if(this.login) {
+        capi = 'login'
+        params = {
+          loginPhone: this.loginPhone,
+          loginPassword: this.loginPassword,
+        }
+        params = {params}
+      } else {
+        params = {
+          phone: this.phone,
+          password: this.password,
+          verificationCode: this.verificationCode
+        }
+      }
+      debugger
+      this.api[capi](params).then(res => {
+        debugger
+        if (res.status === 0) {
+          this.close ()
+        } else {
+          this.$Message.error(res.desc);
+        }
+        this.isShow = false
+        this.modalLoading = false
+      }).catch(res => {
+        this.$Message.error(this.$config.prompt.errorTxt);
+        this.isShow = false
+        this.modalLoading = false
+      })
+    },
     checkLoginRegister() {
       if(this.login) {
-        if(!phoneVerific.isPoneAvailable(this.loginPhone)) {
+        if(!verification.isPoneAvailable(this.loginPhone)) {
           this.$Message.error("请输入正确的手机号");
           return false
-        } else if(!phoneVerific.isPasswd(this.loginPassword)) {
+        } else if(!verification.isPasswd(this.loginPassword)) {
           this.$Message.error("密码为6~20位字符");
           return false
         }
       } else {
-        if(!phoneVerific.isPoneAvailable(this.phone)) {
+        if(!verification.isPoneAvailable(this.phone)) {
           this.$Message.error("请输入正确的手机号");
           return false
         } else if(this.verificationCode.length != 6) {
           this.$Message.error("请正确输入验证码");
           return false
-        } else if(!phoneVerific.isPasswd(this.password)) {
+        } else if(!verification.isPasswd(this.password)) {
           this.$Message.error("密码为6~20位字符");
           return false
         } else if(this.password != this.confirmPassword) {
@@ -101,13 +139,13 @@ export default {
     },
     getVeriCode() {
       this.cangetVeriCode = false
-      let time = 10
+      let time = 60
       let timer = setInterval(() => {
         time--
         if(time < 0) {
           this.getVeriBtnTxt = "重新发送"
-          this.isPhone = phoneVerific.isPoneAvailable(this.phone)
-          this.cangetVeriCode = phoneVerific.isPoneAvailable(this.phone)
+          this.isPhone = verification.isPoneAvailable(this.phone)
+          this.cangetVeriCode = verification.isPoneAvailable(this.phone)
           clearInterval(timer)
         } else {
           this.getVeriBtnTxt = "重新发送(" + time + "s)"

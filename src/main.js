@@ -8,9 +8,11 @@ import iView from 'iview'
 import vuex from 'vuex'
 // import axios from 'axios'
 import api from './api'
+import $config from './config'
 import 'iview/dist/styles/iview.css'
 // Vue.prototype.$api = axios
 Vue.prototype.api = api
+Vue.prototype.$config = $config
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(iView, {
