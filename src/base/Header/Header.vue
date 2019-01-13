@@ -7,7 +7,11 @@
           <li v-for="(item, index) in headerList" @click="changeIndex(item,index)" :key="item + index" class="top-item" :class="{h_active: $route.fullPath == item.path}">{{item.name}}</li>
         </ul>
       </div>
-      <div class="login-rigister">
+      <div v-if="userInfo" class="user-info">
+        <div class="user-mobile">{{userInfo.phone}}</div>
+        <div class="user-avatar"><img :src="userInfo.avatar ? userInfo.avatar : defaultAvatar" alt=""></div>
+      </div>
+      <div v-else class="login-rigister">
         <button @click="isShowLogin = true,login = true">登陆</button>
         <button @click="isShowLogin = true,login = false">注册</button>
         <span id="qqLoginBtn"></span>
@@ -53,17 +57,26 @@ export default {
         }],
       isShowLogin: false,
       login: true,
-      class1: null
+      userInfo: null,
+      defaultAvatar: '/static/img/avatar.jpg' //require('/static/img/avatar.jpg')
     }
   },
+  watch: {},
   mounted () {
     QC.Login({
       btnId: "qqLoginBtn" // 插入按钮的节点id
     })
   },
+  created() {
+    let getlocalUserInfo = localStorage.getItem("_userInfo_")
+    if(getlocalUserInfo) {
+      this.userInfo = JSON.parse(getlocalUserInfo)
+    }
+  },
   methods: {
     closeLoginModal (data) {
-      this.isShowLogin = data
+      this.isShowLogin = data.isShowLogin
+      this.userInfo = data.userInfo
     },
     lognRegistSwith (data) {
       this.login = data
@@ -121,6 +134,28 @@ export default {
     &:hover
       text-shadow: 0px 0px 20px #ffffff;
       font-weight:bold
+.user-info
+  padding: 0 20px
+  display: flex
+  justify-content: space-between
+  align-items: center
+  .user-mobile
+    font-size: 16px;
+    color: #fff
+    font-weight: bolder
+    margin-right: 12px
+  .user-avatar
+    width: 50px
+    height: 50px
+    display: flex
+    justify-content: space-between
+    align-items: center
+    -webkit-border-radius:50%
+    -moz-border-radius:50%
+    border-radius: 50%
+    overflow: hidden
+    img
+      width: 100%
 </style>
 <style lang="stylus">
 #qqLoginBtn

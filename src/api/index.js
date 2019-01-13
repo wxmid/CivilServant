@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-axios.defaults.timeout = 80000
-axios.defaults.withCredentials = false
+axios.defaults.timeout = 30000
+axios.defaults.withCredentials = true
 let path = location.origin
 let baseUrl = 'http://localhost:3000'
 // let path = location.pathname
@@ -90,6 +90,6 @@ export default {
   },
   // 用户登录
   login(params) {
-    return get('/user/login',params)
+    return post('/user/login',params)
   },
 }

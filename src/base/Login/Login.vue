@@ -63,6 +63,7 @@ export default {
       cangetVeriCode: false,
       verificationCode: '',
       getVeriBtnTxt: '获取验证码',
+      userInfo: null
     }
   },
   watch: {
@@ -87,7 +88,6 @@ export default {
           loginPhone: this.loginPhone,
           loginPassword: this.loginPassword,
         }
-        params = {params}
       } else {
         params = {
           phone: this.phone,
@@ -95,10 +95,15 @@ export default {
           verificationCode: this.verificationCode
         }
       }
-      debugger
       this.api[capi](params).then(res => {
-        debugger
+        console.log(res)
         if (res.status === 0) {
+          this.userInfo = {
+            phone: res.phone,
+            avatar: res.avatar,
+            openid: res.openid
+          }
+          localStorage.setItem('_userInfo_',JSON.stringify(this.userInfo))
           this.close ()
         } else {
           this.$Message.error(res.desc);
@@ -153,7 +158,7 @@ export default {
       },1000)
     },
     close () {
-      this.$emit('close', false)
+      this.$emit('close', {isShowLogin: false,userInfo: this.userInfo})
     },
     loginOrRegist () {
       this.$emit('loginSwitch', !this.login)

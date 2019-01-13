@@ -42,7 +42,7 @@ export default {
                   type: 'person'
                 }
               }),
-              h('span', params.row.price + '元')
+              h('span', params.row.price ? params.row.price.toFixed(2) : '0.00' + '元')
             ])
           }
         },
@@ -53,7 +53,7 @@ export default {
           align: 'center',
           render: (h, params) => {
             return h('div', [
-              h('Button', {
+              params.row.price ? h('Button', {
                 props: {
                   type: 'primary',
                   size: 'small'
@@ -63,10 +63,11 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.show(params.index)
+                    this.show(params)
                   }
                 }
               }, '购买')
+              : h('span', '--')
             ])
           }
         }
@@ -76,7 +77,7 @@ export default {
           level: '普通会员',
           term: '--',
           rights: '仅限免费资源下载',
-          price: '--'
+          price: 0
         },
         {
           level: '月费VIP会员',
@@ -100,14 +101,29 @@ export default {
     }
   },
   methods: {
-    show (index) {
-      this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
+    show (params) {
+      this.$Modal.confirm({
+        title: '系统提示',
+        content: `确定去支付购买<b>“${params.row.level}”</b>吗？`,
+        cancelText: '取消',
+        okText: '确定',
+        maskClosable: true,
+        onOk: () => {
+          this.toPay(params)
+        },
+        onCancel: () => {
+          this.cancelPay(params)
+        },
       })
     },
     remove (index) {
       this.data6.splice(index, 1)
+    },
+    toPay(cancelPay) {
+      debugger
+    },
+    cancelPay(cancelPay) {
+      debugger
     }
   }
 }
