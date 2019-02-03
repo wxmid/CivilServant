@@ -3,10 +3,14 @@ import qs from 'qs'
 axios.defaults.timeout = 30000
 axios.defaults.withCredentials = true
 let path = location.origin
-let baseUrl = 'http://localhost:3000'
+// let baseUrl = 'http://localhost:3000' // 本地环境
+let baseUrl = 'http://www.mindwen.com:3000' // 正式环境
 // let path = location.pathname
 // axios.defaults.baseURL = top.location.origin // 自动获取域名
-axios.defaults.baseURL = 'http://localhost:3000'
+
+// axios.defaults.baseURL = 'http://localhost:3000' // 本地
+// axios.defaults.baseURL = 'http://101.132.164.38:3000' // 正式环境
+axios.defaults.baseURL = 'http://www.mindwen.com:3000' // 正式环境
 axios.defaults.headers = {
   'Accept': 'application/json;charset=utf-8',
   'Content-Type': 'application/json;charset=utf-8'
@@ -91,5 +95,9 @@ export default {
   // 用户登录
   login(params) {
     return post('/user/login',params)
+  },
+  // 指令
+  direct(params) {
+    return get('/common/getdirect',params)
   },
 }

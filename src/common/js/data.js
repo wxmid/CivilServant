@@ -29,7 +29,7 @@ const classList = [
           {
             name: '资料分析',
             value: 4
-          },
+          }
         ]
       },
       {
@@ -66,7 +66,7 @@ const classList = [
           {
             name: '资料分析',
             value: 4
-          },
+          }
         ]
       },
       {
@@ -134,7 +134,7 @@ const classList = [
           {
             name: '资料分析',
             value: 4
-          },
+          }
         ]
       },
       {

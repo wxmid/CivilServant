@@ -21,7 +21,7 @@ function isPasswd(s) {
 function padLeftZero(str){
   return ('00'+str).substr(str.length);
 }
-function formatDate(time,fmt){
+function formatDate(time, fmt){
   let date = new Date(time);
   if(/(y+)/.test(fmt)){
     fmt = fmt.replace(RegExp.$1, (date.getFullYear()+'').substr(4-RegExp.$1.length));
