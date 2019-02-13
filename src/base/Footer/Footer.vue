@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <p><span>浙ICP证16013778号-2</span>&emsp;&emsp;&emsp;<img src="/static/img/gongan.png" alt="">&emsp;<span>京公网安备 88888888888888号</span></p>
+    <p><!--<span>浙ICP备19004709号-1</span>&emsp;&emsp;&emsp;<img src="/static/img/gongan.png" alt="">&emsp;--><span>浙ICP备19004709号-1</span></p>
   </div>
 </template>
 

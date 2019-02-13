@@ -1,16 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
+import config from 'config/index'
 axios.defaults.timeout = 30000
 axios.defaults.withCredentials = true
-let path = location.origin
-// let baseUrl = 'http://localhost:3000' // 本地环境
-let baseUrl = 'http://www.mindwen.com:3000' // 正式环境
-// let path = location.pathname
-// axios.defaults.baseURL = top.location.origin // 自动获取域名
-
-// axios.defaults.baseURL = 'http://localhost:3000' // 本地
-// axios.defaults.baseURL = 'http://101.132.164.38:3000' // 正式环境
-axios.defaults.baseURL = 'http://www.mindwen.com:3000' // 正式环境
+let baseUrl = config.glolal.baseUrl
+axios.defaults.baseURL = config.glolal.baseUrl
 axios.defaults.headers = {
   'Accept': 'application/json;charset=utf-8',
   'Content-Type': 'application/json;charset=utf-8'
