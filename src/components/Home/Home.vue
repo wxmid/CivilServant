@@ -142,8 +142,8 @@ export default {
     filtDataList() {
       let params = {
         class1: this.class1,
-        class2:this.class2,
-        class3:this.class3,
+        class2: this.class2,
+        class3: this.class3,
         title: this.title,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
