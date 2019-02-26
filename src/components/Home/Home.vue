@@ -27,7 +27,7 @@
         <div class="second-level-list">
           <div class="h-h-item" :class="{second_level_active: class2 == null}" @click="class2 = null"><span>全部</span></div>
             <template v-if="class1 != null">
-              <div class="h-h-item" v-for="(item,index) in classList[class1].child" :class="{second_level_active: class2 == item.value}" @click="class2 = item.value"><span>{{item.name}}</span></div>
+              <div class="h-h-item" v-for="(item, index) in classList[class1].child" :class="{second_level_active: class2 == item.value}" @click="class2 = item.value"><span>{{item.name}}</span></div>
             </template>
           <div class="h-h-item search-result">共找到 {{total ? total : 0}} 个相关内容</div>
         </div>
@@ -36,7 +36,7 @@
             <span>全部</span>
           </div>
           <template v-if="class1 != null && class2 != null">
-            <div class="third-lv-item" v-for="(item,index) in classList[class1].child[class2].child" :class="{third_level_active: class3 == item.value}" @click="class3 = item.value">
+            <div class="third-lv-item" v-for="(item, index) in classList[class1].child[class2].child" :class="{third_level_active: class3 == item.value}" @click="class3 = item.value">
               <span>{{item.name}}</span>
             </div>
           </template>
@@ -45,7 +45,7 @@
     </div>
     <div class="h-container">
       <div class="h-c-list">
-        <div class="h-c-item" v-for="(item,index) in dataList" :key="item._id" @click="goToDetail(item._id)">
+        <div class="h-c-item" v-for="(item, index) in dataList" :key="item._id" @click="goToDetail(item._id)">
           <div class="h-c-pic">
             <img :src="item.thumbnail" :alt="item.title">
           </div>
@@ -96,50 +96,50 @@ export default {
       title: '',
       pageNo: 1,
       pageSize: 10,
-      total: 0,
+      total: 0
     }
   },
   watch: {
-    currentPath(val,oldVal) {
-      this.class1 = val.split('=').length == 2 ? parseInt(val.split('=')[1]) : null
+    currentPath (val, oldVal) {
+      this.class1 = val.split('=').length === 2 ? parseInt(val.split('=')[1]) : null
       console.log(this.class1)
     },
-    class1(val,oldVal) {
-      this.title = '';
-      this.class2 = null;
-      this.class3 = null;
-      this.title = '';
-      this.filtDataList();
-    },
-    class2(val,oldVal) {
-      this.title = '';
-      this.class3 = null;
-      if(val != null) {
-        this.filtDataList();
-      }
-    },
-    class3(val,oldVal) {
-      this.title = '';
-      if(val != null) {
-        this.filtDataList();
-      }
-    },
-  },
-  mounted () {
-//    this.lisentnerScroll()
-  },
-  created () {
-    this.filtDataList();
-  },
-  methods: {
-//全局搜索
-    globalSearch() {
-      debugger
-      this.$router.push('/home');
+    class1 (val ,oldVal) {
+      this.title = ''
+      this.class2 = null
+      this.class3 = null
+      this.title = ''
       this.filtDataList()
     },
-// 获取筛选列表
-    filtDataList() {
+    class2 (val ,oldVal) {
+      this.title = ''
+      this.class3 = null
+      if (val != null) {
+        this.filtDataList()
+      }
+    },
+    class3 (val ,oldVal) {
+      this.title = ''
+      if (val != null) {
+        this.filtDataList()
+      }
+    }
+  },
+  mounted () {
+//  this.lisentnerScroll()
+  },
+  created () {
+    this.filtDataList()
+  },
+  methods: {
+//  全局搜索
+    globalSearch () {
+//      debugger
+      this.$router.push('/home')
+      this.filtDataList()
+    },
+//  获取筛选列表
+    filtDataList () {
       let params = {
         class1: this.class1,
         class2: this.class2,
@@ -147,7 +147,7 @@ export default {
         title: this.title,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
-        title: this.title
+//        title: this.title
       }
       let self = this
       this.api.filtDataList(params).then((res) => {
@@ -156,13 +156,13 @@ export default {
           self.total = res.total
           console.log(res.list)
         }
-      });
+      })
     },
     lisentnerScroll () {
       let self = this
       document.onscroll = function () {
         let scrolltop = document.documentElement.scrollTop
-        let offsetTop = document.getElementsByClassName('fast-search')[0].offsetTop
+//        let offsetTop = document.getElementsByClassName('fast-search')[0].offsetTop
         if (scrolltop >= 622) {
           self.toTop = true
         } else {
