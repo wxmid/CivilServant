@@ -8,6 +8,7 @@ import MemberShip from '@/components/MemberShip/MemberShip'
 import ManagementBackstage from '@/components/ManagementBackstage/ManagementBackstage'
 import BackstageDatas from '@/components/BackstageDatas/BackstageDatas'
 import UserList from '@/components/UserList/UserList'
+import AccessToken from '@/components/AccessToken/AccessToken'
 /*
 const Container = () => import('@/components/Container/Container')
 const Home = () => import('@/components/Home/Home')
@@ -133,6 +134,14 @@ export default new Router({
           ]
         }
         ]
+    },
+    {
+      path: '/accessToken',
+      name: 'accessToken',
+      component: AccessToken,
+      meta: {
+        login: false
+      }
     }
   ]
 })
