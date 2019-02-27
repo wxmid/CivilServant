@@ -51,47 +51,47 @@ function del (path, params) {
 // 请求接口
 export default {
   // 获取资料信息列表
-  getDataList(params) {
-    return get('/manage/getdataList',params)
+  getDataList (params) {
+    return get('/manage/getdataList', params)
   },
   // 添加资料信息
-  addData(params) {
-    return post('/manage/addData',params)
+  addData (params) {
+    return post('/manage/addData', params)
   },
   // 编辑资料信息
   editData(params) {
-    return post('/manage/editData',params)
+    return post('/manage/editData', params)
   },
   // 编辑资料信息
-  deleteData(params) {
-    return del('/manage/deleteData',params)
+  deleteData (params) {
+    return del('/manage/deleteData', params)
   },
   // 文件上传路径
   uloadFile(params) {
-    return upload('/common/uploadFile',params)
+    return upload('/common/uploadFile', params)
   },
   // 文件上传路径
-  uploadUrl() {
+  uploadUrl () {
     return baseUrl + '/common/uploadFile'
   },
   // 用户端获取筛选数据列表
-  filtDataList(params) {
-    return post('/data/getdataList',params)
+  filtDataList (params) {
+    return post('/data/getdataList', params)
   },
   // 根据id获取资料详情
-  getDetail(params) {
-    return get('/data/getdataDetail',params)
+  getDetail (params) {
+    return get('/data/getdataDetail', params)
   },
   // 新用户注册
-  register(params) {
-    return post('/user/register',params)
+  register (params) {
+    return post('/user/register', params)
   },
   // 用户登录
-  login(params) {
-    return post('/user/login',params)
+  login (params) {
+    return post('/user/login', params)
   },
   // 指令
-  direct(params) {
-    return get('/common/getdirect',params)
-  },
+  direct (params) {
+    return get('/common/getdirect', params)
+  }
 }
