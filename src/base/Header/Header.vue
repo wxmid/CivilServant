@@ -7,7 +7,7 @@
           <li v-for="(item, index) in headerList" @click="changeIndex(item,index)" :key="item + index" class="top-item" :class="{h_active: $route.fullPath == item.path}">{{item.name}}</li>
         </ul>
       </div>
-      <div v-if="userInfo" class="user-info">
+      <!--<div v-if="userInfo" class="user-info">
         <div class="user-mobile">{{userInfo.phone}}</div>
         <div class="user-avatar"><img :src="userInfo.avatar ? userInfo.avatar : defaultAvatar" alt=""></div>
       </div>
@@ -15,7 +15,8 @@
         <button @click="isShowLogin = true,login = true">登陆</button>
         <button @click="isShowLogin = true,login = false">注册</button>
         <span id="qqLoginBtn"></span>
-      </div>
+      </div>-->
+      <span id="qqLoginBtn"></span>
     </div>
     <v-login v-if="isShowLogin" @close="closeLoginModal" @loginSwitch="lognRegistSwith" :login="login"></v-login>
   </div>
@@ -55,7 +56,7 @@ export default {
           name: '关于会员',
           path: '/memberShip'
         }],
-      isShowLogin: false,
+      isShowLogin: true,
       login: true,
       userInfo: null,
       defaultAvatar: '/static/img/avatar.jpg' //require('/static/img/avatar.jpg')
@@ -72,8 +73,18 @@ export default {
     if(getlocalUserInfo) {
       this.userInfo = JSON.parse(getlocalUserInfo)
     }
+    this.getSession();
   },
   methods: {
+    getSession() {
+      this.api.getSession({}).then((res) => {
+        debugger
+        if (res.status === 0) {
+          self.userInfo = res.userInfo
+          console.log(res.userInfo)
+        }
+      })
+    },
     closeLoginModal (data) {
       this.isShowLogin = data.isShowLogin
       this.userInfo = data.userInfo
@@ -168,6 +179,20 @@ export default {
       margin-top: -4px;
 </style>
 <style lang="stylus">
+  #qqLoginBtn
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .figure
+      img
+        vertical-align: middle;
+        border: 2px solid #fff;
+        -webkit-border-radius:  50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    .nickname
+      color: #ffffff
 @media screen and (max-width: 1000px) {
   .top-list {
     .top-item {

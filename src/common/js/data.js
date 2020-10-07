@@ -185,5 +185,5 @@ const classList = [
   }
 ]
 export default {
-  classList: classList,
+  classList: classList
 }

@@ -67,7 +67,7 @@ export default {
                   }
                 }
               }, '购买')
-              : h('span', '--')
+                : h('span', '--')
             ])
           }
         }

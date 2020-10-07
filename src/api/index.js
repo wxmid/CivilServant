@@ -90,6 +90,14 @@ export default {
   login (params) {
     return post('/user/login', params)
   },
+  // qq登录
+  qqLogin (params) {
+    return post('/user/qqLogin', params)
+  },
+  // 获取 session信息
+  getSession (params) {
+    return get('/common/getSession', params)
+  },
   // 指令
   direct (params) {
     return get('/common/getdirect', params)
